@@ -8,7 +8,7 @@ Código publicado bajo licencia Apache-2.0.
 ## Equipo
 
 - **Nadinne Canto Novoa** — dirección del proyecto, diseño de la máquina de estados, contrato de datos, análisis normativo y relación institucional.
-- **Pablo Guzmán** — desarrollo de contratos Soroban e ingesta.
+- ** ** — desarrollo de contratos Soroban e ingesta.
 - **[ nombre ]** — especialista en tokenización. Se incorpora en la segunda iteración y desarrolla el token no transferible sobre SEP-50, la multifirma por rol y ciclo, y la separación entre firmante y pagador.
 
 ## Reconocimiento
