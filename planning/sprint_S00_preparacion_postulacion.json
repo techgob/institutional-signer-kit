@@ -134,7 +134,7 @@
       "comprometida": true,
       "horas_estimadas": 7,
       "horas_version_anterior": 6,
-      "recorte": "Contrato de ejemplo, no el contrato de génesis con guardas, que financia la instaward; se agrega la prueba de no reutilización de la autorización",
+      "recorte": "Contrato de ejemplo, no el contrato de génesis con guardas, que financia la instaward. La corrida usa dos entradas firmadas: A para el operador y el reenvío, B para el tercero",
       "depende_de": [
         "HU-00"
       ],
@@ -143,8 +143,8 @@
       "criterios_aceptacion": [
         {
           "id": "CA-01-1",
-          "dado": "Una clave de rol sin saldo en XLM y una cuenta operadora con saldo",
-          "cuando": "La clave de rol firma la autorización de una invocación y el operador la transmite y paga la comisión",
+          "dado": "Una clave de rol sin saldo en XLM, una cuenta operadora con saldo y la entrada de autorización A, firmada para una invocación determinada",
+          "cuando": "El operador transmite la entrada A, aporta su número de secuencia y paga la comisión",
           "entonces": "La transacción se confirma en testnet y el enlace al explorador lo demuestra",
           "tipo": "camino_valido",
           "guarda": null,
@@ -153,9 +153,9 @@
         },
         {
           "id": "CA-01-2",
-          "dado": "La entrada de autorización ya firmada y publicada",
-          "cuando": "Una tercera cuenta distinta del operador la transmite",
-          "entonces": "La transacción también se confirma, lo que demuestra que la autorización es portátil",
+          "dado": "Una segunda entrada de autorización B, firmada por la misma clave de rol para la misma invocación, con su propio nonce",
+          "cuando": "Una tercera cuenta, distinta del operador, transmite la entrada B",
+          "entonces": "La transacción se confirma, lo que demuestra que la autorización es portátil: quien la transmite no necesita ser el operador",
           "tipo": "camino_valido",
           "guarda": null,
           "caso_esencial_plan_b": false,
@@ -163,9 +163,9 @@
         },
         {
           "id": "CA-01-3",
-          "dado": "La entrada de autorización ya transmitida y confirmada",
-          "cuando": "Se vuelve a transmitir la misma entrada firmada",
-          "entonces": "La red la rechaza, lo que demuestra que la autorización es portátil pero de un solo uso",
+          "dado": "La entrada de autorización A, ya transmitida y confirmada en CA-01-1",
+          "cuando": "Se vuelve a transmitir la entrada A",
+          "entonces": "La red la rechaza por el nonce ya consumido, lo que demuestra que la autorización es de un solo uso",
           "tipo": "camino_invalido",
           "guarda": null,
           "caso_esencial_plan_b": true,

@@ -1,22 +1,426 @@
-[
-  {
-    "id": "CA-01-2",
-    "dado": "La entrada de autorización ya firmada y publicada",
-    "cuando": "Una tercera cuenta distinta del operador transmite la entrada B",
-    "entonces": "La transacción también se confirma, lo que demuestra que la autorización es portátil",
-    "tipo": "camino_valido",
-    "guarda": null,
-    "caso_esencial_plan_b": false,
-    "resultado": "pendiente"
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://techgob.pe/esquemas/pp/plan-sprint/1.0.0",
+  "title": "Contrato de datos del plan de sprint del registro verificable del Presupuesto Participativo",
+  "description": "Estructura el plan de sprint (capacidad, backlog, plan diario, punto de control, riesgos, hoja de ruta y seguimiento) para que el backend lo valide, calcule el burndown y publique solo la evidencia verificable del incremento. Mismas convenciones de anotación que ingesta_documento_pp.schema.json.",
+  "x-convenciones": {
+    "x-admision": {
+      "cadena": "Forma parte del hito público de desarrollo: identificadores, estado y evidencia verificable del incremento (id de contrato, hash de transacción, commit). Se compromete por SHA-256 y puede anclarse.",
+      "cadena_huella": "Solo la huella del documento referido (README, registro de decisión) forma parte del hito público.",
+      "fuera_de_cadena": "Gestión interna del equipo: horas, capacidad, riesgos, plan diario. Nunca se publica en el hito.",
+      "prohibido": "No puede existir: nombres, correos o identificadores de personas del equipo, y condiciones económicas individuales."
+    },
+    "x-fuente": "plan:seccion_N (plan de sprint aprobado), decision:dueno_producto, calculado, externo:calendario_oficial_peru, repo:git, ci:reporte, externo:stellar_rpc, referencia:APA.",
+    "x-validacion": {
+      "automatica": "La calcula o comprueba el validador.",
+      "humana_simple": "La confirma el dueño de producto.",
+      "humana_doble": "La confirman el desarrollador y el dueño de producto."
+    }
   },
-  {
-    "id": "CA-01-3",
-    "dado": "La entrada de autorización ya transmitida y confirmada",
-    "cuando": "Se vuelve a transmitir la entrada A",
-    "entonces": "La red la rechaza, lo que demuestra que la autorización es portátil pero de un solo uso",
-    "tipo": "camino_invalido",
-    "guarda": null,
-    "caso_esencial_plan_b": true,
-    "resultado": "pendiente"
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    { "$ref": "#/$defs/sin_datos_personales" },
+    {
+      "$comment": "No se despliega en mainnet sin auditoría: fuera del alcance de la hoja de ruta 2026.",
+      "properties": { "proyecto": { "properties": { "red": { "not": { "const": "mainnet" } } } } }
+    },
+    {
+      "$comment": "Un verificador en verde exige evidencia completa del incremento.",
+      "if": { "properties": { "seguimiento": { "properties": { "evidencia_incremento": { "properties": { "verificador_resultado": { "const": "verde" } } } } } } },
+      "then": {
+        "properties": {
+          "seguimiento": {
+            "properties": {
+              "evidencia_incremento": {
+                "properties": {
+                  "id_contrato_testnet": { "type": "string" },
+                  "hash_transaccion_t0": { "type": "string" },
+                  "compromiso_t0_sha256": { "type": "string" },
+                  "commit_release": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "required": ["version_esquema", "proyecto", "equipo", "calendario", "sprint", "capacidad", "backlog", "plan_diario", "burndown_planificado", "punto_control", "definicion_terminado", "riesgos", "dependencias_externas", "trabajo_diferido", "hoja_ruta", "seguimiento"],
+  "properties": {
+    "version_esquema": { "const": "1.0.0", "x-fuente": "calculado", "x-admision": "cadena", "x-validacion": "automatica" },
+
+    "proyecto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codigo", "ciclo_id", "red", "esquema_ingesta_version"],
+      "properties": {
+        "codigo": { "type": "string", "pattern": "^[A-Z0-9-]+$", "x-fuente": "decision:dueno_producto", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "ciclo_id": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ubigeo", "numero_norma_genesis", "anio_fiscal"],
+          "properties": {
+            "ubigeo": { "type": "string", "pattern": "^[0-9]{4}([0-9]{2})?$" },
+            "numero_norma_genesis": { "type": "string" },
+            "anio_fiscal": { "type": "integer" }
+          },
+          "description": "Debe coincidir con evento.ciclo_id del contrato de ingesta.",
+          "x-fuente": "plan:seccion_1", "x-admision": "cadena", "x-validacion": "humana_doble"
+        },
+        "red": { "enum": ["local", "testnet", "futurenet", "mainnet"], "x-fuente": "plan:seccion_1", "x-admision": "cadena", "x-validacion": "automatica" },
+        "esquema_ingesta_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$", "x-fuente": "repo:git", "x-admision": "cadena", "x-validacion": "automatica" },
+        "repositorio_url": { "type": ["string", "null"], "format": "uri", "x-fuente": "repo:git", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" }
+      }
+    },
+
+    "equipo": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [{ "$ref": "#/$defs/sin_datos_personales" }],
+        "required": ["rol", "dedicacion_porcentaje"],
+        "properties": {
+          "rol": { "$ref": "#/$defs/rol_equipo" },
+          "dedicacion_porcentaje": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 }
+        }
+      },
+      "description": "Roles, nunca personas.",
+      "x-fuente": "plan:seccion_2", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+    },
+
+    "calendario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pais", "dias_laborables", "feriados"],
+      "properties": {
+        "pais": { "const": "PE" },
+        "dias_laborables": { "type": "array", "items": { "enum": ["lun", "mar", "mie", "jue", "vie", "sab", "dom"] }, "uniqueItems": true },
+        "feriados": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["fecha", "motivo"],
+            "properties": { "fecha": { "$ref": "#/$defs/fecha" }, "motivo": { "type": "string" } }
+          }
+        }
+      },
+      "x-fuente": "externo:calendario_oficial_peru", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+    },
+
+    "sprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "objetivo", "fecha_inicio", "fecha_fin", "dias_habiles", "excepcion_duracion"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id_sprint", "x-fuente": "plan:seccion_1", "x-admision": "cadena", "x-validacion": "automatica" },
+        "objetivo": { "type": "string", "minLength": 20, "x-fuente": "plan:seccion_1", "x-admision": "cadena", "x-validacion": "humana_doble" },
+        "fecha_inicio": { "$ref": "#/$defs/fecha", "x-fuente": "decision:dueno_producto", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "fecha_fin": { "$ref": "#/$defs/fecha", "x-fuente": "decision:dueno_producto", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "dias_habiles": { "type": "integer", "minimum": 1, "maximum": 23, "x-fuente": "calculado", "x-admision": "fuera_de_cadena", "x-validacion": "automatica" },
+        "excepcion_duracion": {
+          "type": "object", "additionalProperties": false, "required": ["es_excepcion", "motivo"],
+          "properties": { "es_excepcion": { "type": "boolean" }, "motivo": { "type": ["string", "null"] } },
+          "description": "Scrum pide duración consistente; un sprint más corto se declara como excepción.",
+          "x-fuente": "plan:seccion_1", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+        }
+      }
+    },
+
+    "capacidad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["horas_por_dia", "horas_brutas", "ceremonias", "horas_netas", "colchon_porcentaje", "colchon_horas", "horas_comprometidas"],
+      "properties": {
+        "horas_por_dia": { "$ref": "#/$defs/horas" },
+        "horas_brutas": { "$ref": "#/$defs/horas", "description": "dias_habiles × horas_por_dia." },
+        "ceremonias": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["tipo", "horas"],
+            "properties": { "tipo": { "$ref": "#/$defs/tipo_ceremonia" }, "horas": { "$ref": "#/$defs/horas" } }
+          }
+        },
+        "horas_netas": { "$ref": "#/$defs/horas", "description": "horas_brutas − suma de ceremonias." },
+        "colchon_porcentaje": { "type": "number", "minimum": 0, "maximum": 0.5 },
+        "colchon_horas": { "$ref": "#/$defs/horas" },
+        "horas_comprometidas": { "$ref": "#/$defs/horas", "description": "horas_netas − colchon_horas; igual a la suma de historias comprometidas." }
+      },
+      "x-fuente": "plan:seccion_2", "x-admision": "fuera_de_cadena", "x-validacion": "automatica"
+    },
+
+    "backlog": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/historia" }
+    },
+
+    "plan_diario": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dia", "fecha", "asignaciones", "ceremonias", "hitos"],
+        "properties": {
+          "dia": { "type": "string", "pattern": "^D[0-9]{1,2}$" },
+          "fecha": { "$ref": "#/$defs/fecha" },
+          "asignaciones": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false, "required": ["historia", "horas"],
+              "properties": { "historia": { "$ref": "#/$defs/id_historia" }, "horas": { "$ref": "#/$defs/horas" } }
+            }
+          },
+          "ceremonias": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false, "required": ["tipo", "horas"],
+              "properties": { "tipo": { "$ref": "#/$defs/tipo_ceremonia" }, "horas": { "$ref": "#/$defs/horas" } }
+            }
+          },
+          "hitos": { "type": "array", "items": { "enum": ["punto_control", "publicacion_t0", "demo"] }, "uniqueItems": true }
+        }
+      },
+      "x-fuente": "plan:seccion_5", "x-admision": "fuera_de_cadena", "x-validacion": "automatica"
+    },
+
+    "burndown_planificado": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["corte", "horas_restantes", "ideal"],
+        "properties": {
+          "corte": { "type": "string", "description": "inicio o fecha AAAA-MM-DD al cierre del día." },
+          "horas_restantes": { "$ref": "#/$defs/horas" },
+          "ideal": { "type": "number", "minimum": 0 }
+        }
+      },
+      "description": "Derivado del plan diario; el validador lo recalcula y rechaza diferencias.",
+      "x-fuente": "calculado", "x-admision": "fuera_de_cadena", "x-validacion": "automatica"
+    },
+
+    "punto_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fecha", "condicion_exito", "umbral_horas_restantes", "plan_b"],
+      "properties": {
+        "fecha": { "$ref": "#/$defs/fecha" },
+        "condicion_exito": { "type": "string" },
+        "umbral_horas_restantes": { "$ref": "#/$defs/horas", "description": "Horas restantes planificadas al cierre de ese día; más horas activa el plan B." },
+        "plan_b": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["historia", "horas_nuevas", "descripcion"],
+            "properties": {
+              "historia": { "$ref": "#/$defs/id_historia" },
+              "horas_nuevas": { "$ref": "#/$defs/horas" },
+              "descripcion": { "type": "string" }
+            }
+          }
+        }
+      },
+      "x-fuente": "plan:seccion_5", "x-admision": "fuera_de_cadena", "x-validacion": "automatica"
+    },
+
+    "definicion_terminado": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["por_historia", "por_sprint", "comprobaciones_verificador"],
+      "properties": {
+        "por_historia": { "type": "array", "items": { "type": "string" }, "minItems": 1, "x-admision": "fuera_de_cadena" },
+        "por_sprint": { "type": "string", "x-admision": "cadena" },
+        "comprobaciones_verificador": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "enum": ["huella_pdf_coincide", "compromiso_canonico_coincide", "ciclo_existe_en_contrato", "evento_t0_en_red"] },
+          "x-admision": "cadena"
+        },
+        "huella_documento": { "$ref": "#/$defs/sha256_o_nulo", "x-fuente": "repo:git", "x-admision": "cadena_huella" }
+      },
+      "x-fuente": "plan:seccion_6", "x-validacion": "humana_doble"
+    },
+
+    "riesgos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "descripcion", "probabilidad", "impacto", "mitigacion", "disparador"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^R-[0-9]{2}$" },
+          "descripcion": { "type": "string" },
+          "probabilidad": { "enum": ["baja", "media", "alta"] },
+          "impacto": { "enum": ["bajo", "medio", "alto"] },
+          "mitigacion": { "type": "string" },
+          "disparador": { "type": "string", "description": "Señal observable que convierte el riesgo en incidente." },
+          "historias_afectadas": { "type": "array", "items": { "$ref": "#/$defs/id_historia" } },
+          "referencia": {
+            "type": ["object", "null"], "additionalProperties": false,
+            "properties": { "apa": { "type": "string" }, "url": { "type": "string", "format": "uri" } }
+          }
+        }
+      },
+      "x-fuente": "plan:seccion_7", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+    },
+
+    "dependencias_externas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "solicitud", "responsable", "necesaria_para_sprint", "transiciones", "bloquea_sprint_actual"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^DEP-[0-9]{2}$" },
+          "solicitud": { "type": "string" },
+          "responsable": { "$ref": "#/$defs/rol_equipo" },
+          "necesaria_para_sprint": { "$ref": "#/$defs/id_sprint" },
+          "transiciones": { "type": "array", "items": { "$ref": "#/$defs/transicion" } },
+          "bloquea_sprint_actual": { "type": "boolean" },
+          "estado": { "enum": ["por_solicitar", "solicitada", "recibida"] }
+        }
+      },
+      "x-fuente": "plan:seccion_7", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+    },
+
+    "trabajo_diferido": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["item", "destino_sprint", "motivo"],
+        "properties": {
+          "item": { "type": "string" },
+          "historia": { "anyOf": [{ "$ref": "#/$defs/id_historia" }, { "type": "null" }] },
+          "destino_sprint": { "$ref": "#/$defs/id_sprint" },
+          "motivo": { "type": "string" }
+        }
+      },
+      "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+    },
+
+    "hoja_ruta": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sprint", "fecha_inicio", "fecha_fin", "dias_habiles", "incremento", "transiciones"],
+        "properties": {
+          "sprint": { "$ref": "#/$defs/id_sprint" },
+          "fecha_inicio": { "$ref": "#/$defs/fecha" },
+          "fecha_fin": { "$ref": "#/$defs/fecha" },
+          "dias_habiles": { "type": "integer", "minimum": 1 },
+          "incremento": { "type": "string" },
+          "transiciones": { "type": "array", "items": { "$ref": "#/$defs/transicion" }, "uniqueItems": true }
+        }
+      },
+      "x-fuente": "plan:seccion_8", "x-admision": "fuera_de_cadena", "x-validacion": "automatica"
+    },
+
+    "seguimiento": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["horas_reales_por_dia", "plan_b_activado", "evidencia_incremento"],
+      "properties": {
+        "horas_reales_por_dia": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["fecha", "horas"],
+            "properties": { "fecha": { "$ref": "#/$defs/fecha" }, "horas": { "$ref": "#/$defs/horas" } }
+          },
+          "x-fuente": "repo:bitacora_daily", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple"
+        },
+        "plan_b_activado": { "type": "boolean", "x-fuente": "decision:dueno_producto", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "evidencia_incremento": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id_contrato_testnet", "hash_transaccion_t0", "compromiso_t0_sha256", "commit_release", "verificador_resultado"],
+          "properties": {
+            "id_contrato_testnet": { "type": ["string", "null"], "pattern": "^C[A-Z2-7]{55}$", "x-fuente": "externo:stellar_rpc", "x-admision": "cadena", "x-validacion": "automatica" },
+            "hash_transaccion_t0": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$", "x-fuente": "externo:stellar_rpc", "x-admision": "cadena", "x-validacion": "automatica" },
+            "compromiso_t0_sha256": { "$ref": "#/$defs/sha256_o_nulo", "description": "Debe coincidir con transaccion_T0 del contrato de ingesta.", "x-fuente": "calculado", "x-admision": "cadena", "x-validacion": "automatica" },
+            "commit_release": { "type": ["string", "null"], "pattern": "^[a-f0-9]{40}$", "x-fuente": "repo:git", "x-admision": "cadena", "x-validacion": "automatica" },
+            "huella_readme": { "$ref": "#/$defs/sha256_o_nulo", "x-fuente": "repo:git", "x-admision": "cadena_huella", "x-validacion": "automatica" },
+            "reporte_ci_url": { "type": ["string", "null"], "format": "uri", "x-fuente": "ci:reporte", "x-admision": "fuera_de_cadena", "x-validacion": "automatica" },
+            "verificador_resultado": { "enum": ["pendiente", "verde", "rojo"], "x-fuente": "ci:reporte", "x-admision": "cadena", "x-validacion": "humana_doble" }
+          }
+        }
+      }
+    }
+  },
+
+  "$defs": {
+    "fecha": { "type": "string", "format": "date" },
+    "horas": { "type": "number", "minimum": 0, "multipleOf": 0.25 },
+    "sha256_o_nulo": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "id_sprint": { "type": "string", "pattern": "^S[0-9]{2}$" },
+    "id_historia": { "type": "string", "pattern": "^HU-[0-9]{2}$" },
+    "rol_equipo": { "enum": ["desarrollador", "dueno_producto", "revisor_producto", "ogpp"] },
+    "tipo_ceremonia": { "enum": ["planning", "daily", "refinamiento", "revision", "retrospectiva"] },
+    "transicion": {
+      "$comment": "Debe ser idéntico a $defs/transicion de ingesta_documento_pp.schema.json; el validador lo comprueba.",
+      "enum": [
+        "T0_ordenanza_aprobada", "T1_vigente", "T2_convocado", "T3_acreditacion_cerrada",
+        "T4_taller_realizado", "T5_priorizado", "T6_acta_formalizada", "T7_comite_instalado",
+        "T8_remitido_mef", "T9_incorporado_pia", "T10_vigilado", "T11_sustituido",
+        "T12_rendido_cuentas", "T13_ciclo_cerrado"
+      ]
+    },
+    "guarda": { "enum": ["G1", "G2", "G6", "G7", "G8", "G9", "G10", "G11", "G12"] },
+    "sin_datos_personales": {
+      "propertyNames": { "not": { "pattern": "(?i)(nombre|apellido|correo|email|telefono|dni|documento_identidad|tarifa|sueldo|honorario|remuneracion)" } }
+    },
+
+    "criterio_aceptacion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "dado", "cuando", "entonces", "tipo", "resultado"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^CA-[0-9]{2}-[0-9]+$", "x-fuente": "plan:seccion_4", "x-admision": "cadena", "x-validacion": "automatica" },
+        "dado": { "type": "string", "x-fuente": "plan:seccion_4", "x-admision": "fuera_de_cadena", "x-validacion": "humana_doble" },
+        "cuando": { "type": "string", "x-fuente": "plan:seccion_4", "x-admision": "fuera_de_cadena", "x-validacion": "humana_doble" },
+        "entonces": { "type": "string", "x-fuente": "plan:seccion_4", "x-admision": "fuera_de_cadena", "x-validacion": "humana_doble" },
+        "tipo": { "enum": ["camino_valido", "camino_invalido"], "x-fuente": "plan:seccion_4", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" },
+        "guarda": { "anyOf": [{ "$ref": "#/$defs/guarda" }, { "type": "null" }], "x-fuente": "plan:seccion_4", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "caso_esencial_plan_b": { "type": "boolean", "description": "Se conserva si se activa el plan B.", "x-fuente": "plan:seccion_5", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" },
+        "resultado": { "enum": ["pendiente", "aprobado", "fallido"], "x-fuente": "ci:reporte", "x-admision": "cadena", "x-validacion": "automatica" }
+      }
+    },
+
+    "historia": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "titulo", "prioridad", "comprometida", "horas_estimadas", "depende_de", "criterios_aceptacion", "estado"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id_historia", "x-fuente": "plan:seccion_3", "x-admision": "cadena", "x-validacion": "automatica" },
+        "titulo": { "type": "string", "x-fuente": "plan:seccion_3", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "prioridad": { "enum": ["must", "should", "could", "wont"], "x-fuente": "decision:dueno_producto", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" },
+        "comprometida": { "type": "boolean", "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "automatica" },
+        "horas_estimadas": { "$ref": "#/$defs/horas", "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "humana_doble" },
+        "horas_version_anterior": { "anyOf": [{ "$ref": "#/$defs/horas" }, { "type": "null" }], "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" },
+        "recorte": { "type": ["string", "null"], "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" },
+        "depende_de": { "type": "array", "items": { "$ref": "#/$defs/id_historia" }, "uniqueItems": true, "x-fuente": "plan:seccion_3", "x-admision": "fuera_de_cadena", "x-validacion": "automatica" },
+        "transiciones_habilitadas": { "type": "array", "items": { "$ref": "#/$defs/transicion" }, "uniqueItems": true, "x-fuente": "plan:seccion_3", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "guardas": { "type": "array", "items": { "$ref": "#/$defs/guarda" }, "uniqueItems": true, "x-fuente": "plan:seccion_3", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "criterios_aceptacion": { "type": "array", "items": { "$ref": "#/$defs/criterio_aceptacion" } },
+        "estado": { "enum": ["pendiente", "en_curso", "terminada", "bloqueada", "diferida"], "x-fuente": "repo:tablero", "x-admision": "cadena", "x-validacion": "humana_simple" },
+        "horas_reales": { "anyOf": [{ "$ref": "#/$defs/horas" }, { "type": "null" }], "x-fuente": "repo:bitacora_daily", "x-admision": "fuera_de_cadena", "x-validacion": "humana_simple" }
+      },
+      "allOf": [
+        {
+          "$comment": "Una historia Must no puede diferirse; el plan B reduce su alcance, no la saca del sprint.",
+          "if": { "properties": { "prioridad": { "const": "must" } } },
+          "then": { "properties": { "estado": { "not": { "const": "diferida" } }, "comprometida": { "const": true } } }
+        },
+        {
+          "$comment": "Una historia no comprometida queda diferida o pendiente; nunca en curso ni terminada dentro del sprint.",
+          "if": { "properties": { "comprometida": { "const": false } } },
+          "then": { "properties": { "estado": { "enum": ["pendiente", "diferida"] } } }
+        },
+        {
+          "$comment": "Una historia terminada exige todos sus criterios aprobados.",
+          "if": { "properties": { "estado": { "const": "terminada" } } },
+          "then": { "properties": { "criterios_aceptacion": { "minItems": 1, "items": { "properties": { "resultado": { "const": "aprobado" } } } } } }
+        }
+      ]
+    }
   }
-]
+}
