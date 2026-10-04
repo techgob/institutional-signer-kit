@@ -2,7 +2,8 @@
 
 Demuestra en testnet los tres criterios de aceptación:
   CA-01-1  el operador transmite la entrada A firmada por el rol y paga la comisión
-  CA-01-2  un tercero transmite la entrada B, firmada por el rol y publicada como XDR
+  CA-01-2  un tercero transmite la entrada B, firmada por el rol para la misma invocación y
+           publicada como XDR
   CA-01-3  reenviar la entrada A ya usada es rechazado por la red (nonce consumido)
 
 Las claves se leen de la CLI de Stellar (`stellar keys show`), nunca del repositorio.
@@ -128,8 +129,8 @@ def main(contrato: str) -> None:
     server = SorobanServer(RPC)
     rol, operador, tercero = clave("tg-rol"), clave("tg-operador"), clave("tg-tercero")
     corrida = str(time.time()).encode()
-    huella_a = hashlib.sha256(b"A" + corrida).digest()
-    huella_b = hashlib.sha256(b"B" + corrida).digest()
+    # A y B autorizan la misma invocación (mismo contrato, función y argumentos); solo cambia el nonce.
+    huella = hashlib.sha256(corrida).digest()
     filas = []
 
     # Paso 0: si la cuenta del rol no existe, el operador la crea con saldo 0 y reserva patrocinada.
@@ -139,26 +140,26 @@ def main(contrato: str) -> None:
     print(f"saldo XLM del rol: {saldo_xlm(rol.public_key)}")
 
     # CA-01-1: el rol firma A, el operador la transmite y paga.
-    entradas_a = entrada_firmada(server, operador, contrato, rol, huella_a)
-    tx_a, res_a = transmitir(server, operador, contrato, rol, huella_a, entradas_a)
+    entradas_a = entrada_firmada(server, operador, contrato, rol, huella)
+    tx_a, res_a = transmitir(server, operador, contrato, rol, huella, entradas_a)
     filas.append(resumen("CA-01-1 operador transmite A", res_a, operador))
 
     # CA-01-2: el rol firma B y la publica; el tercero la toma del archivo y la transmite.
     SALIDA.mkdir(exist_ok=True)
     publicada = SALIDA / "autorizacion_B.xdr"
-    publicada.write_text("\n".join(e.to_xdr() for e in entrada_firmada(server, operador, contrato, rol, huella_b)))
+    publicada.write_text("\n".join(e.to_xdr() for e in entrada_firmada(server, operador, contrato, rol, huella)))
     entradas_b = [xdr.SorobanAuthorizationEntry.from_xdr(l) for l in publicada.read_text().splitlines()]
-    _, res_b = transmitir(server, tercero, contrato, rol, huella_b, entradas_b)
+    _, res_b = transmitir(server, tercero, contrato, rol, huella, entradas_b)
     filas.append(resumen("CA-01-2 tercero transmite B publicada", res_b, tercero))
 
     # CA-01-3: el tercero reenvía A. La simulación ya lo rechaza; para dejar la prueba en la red
     # se envía igual, con los recursos de la transacción A original.
     try:
-        transmitir(server, tercero, contrato, rol, huella_a, entradas_a)
+        transmitir(server, tercero, contrato, rol, huella, entradas_a)
         raise SystemExit("ERROR: el reenvío de A no fue rechazado en simulación")
     except PrepareTransactionException as e:
         print(f"simulación del reenvío rechazada: {str(e)[:160]}")
-    reenvio = invocacion(server, tercero, contrato, rol, huella_a)
+    reenvio = invocacion(server, tercero, contrato, rol, huella)
     reenvio.transaction.operations[0].auth = entradas_a
     reenvio.transaction.soroban_data = tx_a.transaction.soroban_data
     reenvio.transaction.fee = tx_a.transaction.fee
@@ -171,6 +172,7 @@ def main(contrato: str) -> None:
         "contrato": contrato,
         "rol": rol.public_key,
         "rol_saldo_xlm_al_final": saldo_xlm(rol.public_key),
+        "huella_invocada": huella.hex(),
         "operador": operador.public_key,
         "tercero": tercero.public_key,
         "transacciones": filas,

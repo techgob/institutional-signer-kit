@@ -42,5 +42,5 @@ ni guarda XLM. La alternativa sería una cuenta de contrato, que no necesita cue
 
 El nonce de cada entrada de autorización la hace de un solo uso. Si el operador ya transmitió
 una entrada, un tercero no puede transmitir la misma: la red la rechaza. Por eso la corrida usa
-dos entradas firmadas por el rol. La A la transmite el operador (CA-01-1), la B se publica como
+dos entradas firmadas por el rol para la misma invocación, con nonces distintos. La A la transmite el operador (CA-01-1), la B se publica como
 XDR y la transmite un tercero (CA-01-2), y el reenvío de A es el que la red rechaza (CA-01-3).
