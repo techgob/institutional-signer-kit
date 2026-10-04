@@ -1,107 +1,316 @@
+
+Sprint s00 preparacion postulacion · JSON
 {
   "version_esquema": "1.0.0",
   "proyecto": {
     "codigo": "TECHGOB-PP-TOCACHE",
-    "ciclo_id": { "ubigeo": "2210", "numero_norma_genesis": "001-2026-MPT", "anio_fiscal": 2027 },
+    "ciclo_id": {
+      "ubigeo": "2210",
+      "numero_norma_genesis": "001-2026-MPT",
+      "anio_fiscal": 2027
+    },
     "red": "testnet",
     "esquema_ingesta_version": "1.0.0",
     "repositorio_url": null
   },
   "equipo": [
-    { "rol": "desarrollador", "dedicacion_porcentaje": 100 },
-    { "rol": "dueno_producto", "dedicacion_porcentaje": null }
+    {
+      "rol": "desarrollador",
+      "dedicacion_porcentaje": 100
+    },
+    {
+      "rol": "dueno_producto",
+      "dedicacion_porcentaje": null
+    }
   ],
   "calendario": {
     "pais": "PE",
-    "dias_laborables": ["lun", "mar", "mie", "jue", "vie"],
+    "dias_laborables": [
+      "lun",
+      "mar",
+      "mie",
+      "jue",
+      "vie"
+    ],
     "feriados": [
-      { "fecha": "2026-10-08", "motivo": "Combate de Angamos" },
-      { "fecha": "2026-11-01", "motivo": "Día de Todos los Santos" },
-      { "fecha": "2026-12-08", "motivo": "Inmaculada Concepción" }
+      {
+        "fecha": "2026-10-08",
+        "motivo": "Combate de Angamos"
+      },
+      {
+        "fecha": "2026-11-01",
+        "motivo": "Día de Todos los Santos"
+      },
+      {
+        "fecha": "2026-12-08",
+        "motivo": "Inmaculada Concepción"
+      },
+      {
+        "fecha": "2026-12-25",
+        "motivo": "Navidad"
+      },
+      {
+        "fecha": "2027-01-01",
+        "motivo": "Año Nuevo"
+      }
     ]
   },
   "sprint": {
     "id": "S00",
     "objetivo": "Dejar lista la evidencia mínima para postular a la instaward: repositorio público con lo ya diseñado, prueba de concepto de firma sin XLM en testnet y video de demostración, sin anticipar el trabajo que la propia instaward debe financiar.",
-    "fecha_inicio": "2026-09-28",
-    "fecha_fin": "2026-09-30",
+    "fecha_inicio": "2026-10-05",
+    "fecha_fin": "2026-10-07",
     "dias_habiles": 3,
     "excepcion_duracion": {
       "es_excepcion": true,
-      "motivo": "No es un sprint de desarrollo sino una preparación de postulación. Las fechas son indicativas y se mueven según cuándo quede encaminado el referido del capítulo."
+      "motivo": "No es un sprint de desarrollo sino una preparación de postulación. El desarrollador se incorpora el domingo 4 de octubre y el jueves 8 es feriado, de modo que la ventana efectiva de tres días hábiles es del lunes 5 al miércoles 7."
     }
   },
   "capacidad": {
     "horas_por_dia": 7,
     "horas_brutas": 21,
     "ceremonias": [
-      { "tipo": "planning", "horas": 1 },
-      { "tipo": "daily", "horas": 0.75 },
-      { "tipo": "revision", "horas": 0.5 },
-      { "tipo": "retrospectiva", "horas": 0.25 }
+      {
+        "tipo": "planning",
+        "horas": 1
+      },
+      {
+        "tipo": "daily",
+        "horas": 0.75
+      },
+      {
+        "tipo": "revision",
+        "horas": 1
+      },
+      {
+        "tipo": "retrospectiva",
+        "horas": 0.25
+      }
     ],
-    "horas_netas": 18.5,
-    "colchon_porcentaje": 0.24,
-    "colchon_horas": 4.5,
-    "horas_comprometidas": 14
+    "horas_netas": 18,
+    "colchon_porcentaje": 0.17,
+    "colchon_horas": 3,
+    "horas_comprometidas": 15
   },
   "backlog": [
     {
       "id": "HU-00",
       "titulo": "Repositorio público con el trabajo ya diseñado",
-      "prioridad": "must", "comprometida": true, "horas_estimadas": 4, "horas_version_anterior": 4,
+      "prioridad": "must",
+      "comprometida": true,
+      "horas_estimadas": 4,
+      "horas_version_anterior": 4,
       "recorte": "Publica lo existente; no construye nada nuevo",
       "depende_de": [],
-      "transiciones_habilitadas": [], "guardas": [],
+      "transiciones_habilitadas": [],
+      "guardas": [],
       "criterios_aceptacion": [
-        { "id": "CA-00-1", "dado": "Un clon limpio del repositorio", "cuando": "Un tercero sigue el README", "entonces": "Ejecuta el validador de ingesta y obtiene los siete casos de prueba con su resultado esperado", "tipo": "camino_valido", "guarda": null, "caso_esencial_plan_b": true, "resultado": "pendiente" },
-        { "id": "CA-00-2", "dado": "El repositorio publicado", "cuando": "Se revisa su contenido", "entonces": "Incluye el esquema de ingesta, el validador, los casos de prueba, la máquina de estados y una licencia abierta", "tipo": "camino_valido", "guarda": null, "caso_esencial_plan_b": true, "resultado": "pendiente" }
+        {
+          "id": "CA-00-1",
+          "dado": "Un clon limpio del repositorio",
+          "cuando": "Un tercero sigue el README",
+          "entonces": "Ejecuta el validador de ingesta y obtiene los siete casos de prueba con su resultado esperado",
+          "tipo": "camino_valido",
+          "guarda": null,
+          "caso_esencial_plan_b": true,
+          "resultado": "pendiente"
+        },
+        {
+          "id": "CA-00-2",
+          "dado": "El repositorio publicado",
+          "cuando": "Se revisa su contenido",
+          "entonces": "Incluye el esquema de ingesta, el validador, los casos de prueba, la máquina de estados y una licencia abierta",
+          "tipo": "camino_valido",
+          "guarda": null,
+          "caso_esencial_plan_b": true,
+          "resultado": "pendiente"
+        }
       ],
-      "estado": "pendiente", "horas_reales": null
+      "estado": "pendiente",
+      "horas_reales": null
     },
     {
       "id": "HU-01",
       "titulo": "Prueba de concepto de firma sin XLM en testnet",
-      "prioridad": "must", "comprometida": true, "horas_estimadas": 6, "horas_version_anterior": 8,
-      "recorte": "Contrato de ejemplo, no el contrato de génesis con guardas, que financia la instaward",
-      "depende_de": ["HU-00"],
-      "transiciones_habilitadas": [], "guardas": [],
-      "criterios_aceptacion": [
-        { "id": "CA-01-1", "dado": "Una clave de rol sin saldo en XLM y una cuenta operadora con saldo", "cuando": "La clave de rol firma la autorización de una invocación y el operador la transmite y paga la comisión", "entonces": "La transacción se confirma en testnet y el enlace al explorador lo demuestra", "tipo": "camino_valido", "guarda": null, "caso_esencial_plan_b": true, "resultado": "pendiente" },
-        { "id": "CA-01-2", "dado": "La entrada de autorización ya firmada y publicada", "cuando": "Una tercera cuenta distinta del operador la transmite", "entonces": "La transacción también se confirma, lo que demuestra que la autorización es portátil", "tipo": "camino_valido", "guarda": null, "caso_esencial_plan_b": false, "resultado": "pendiente" }
+      "prioridad": "must",
+      "comprometida": true,
+      "horas_estimadas": 7,
+      "horas_version_anterior": 6,
+      "recorte": "Contrato de ejemplo, no el contrato de génesis con guardas, que financia la instaward; se agrega la prueba de no reutilización de la autorización",
+      "depende_de": [
+        "HU-00"
       ],
-      "estado": "pendiente", "horas_reales": null
+      "transiciones_habilitadas": [],
+      "guardas": [],
+      "criterios_aceptacion": [
+        {
+          "id": "CA-01-1",
+          "dado": "Una clave de rol sin saldo en XLM y una cuenta operadora con saldo",
+          "cuando": "La clave de rol firma la autorización de una invocación y el operador la transmite y paga la comisión",
+          "entonces": "La transacción se confirma en testnet y el enlace al explorador lo demuestra",
+          "tipo": "camino_valido",
+          "guarda": null,
+          "caso_esencial_plan_b": true,
+          "resultado": "pendiente"
+        },
+        {
+          "id": "CA-01-2",
+          "dado": "La entrada de autorización ya firmada y publicada",
+          "cuando": "Una tercera cuenta distinta del operador la transmite",
+          "entonces": "La transacción también se confirma, lo que demuestra que la autorización es portátil",
+          "tipo": "camino_valido",
+          "guarda": null,
+          "caso_esencial_plan_b": false,
+          "resultado": "pendiente"
+        },
+        {
+          "id": "CA-01-3",
+          "dado": "La entrada de autorización ya transmitida y confirmada",
+          "cuando": "Se vuelve a transmitir la misma entrada firmada",
+          "entonces": "La red la rechaza, lo que demuestra que la autorización es portátil pero de un solo uso",
+          "tipo": "camino_invalido",
+          "guarda": null,
+          "caso_esencial_plan_b": true,
+          "resultado": "pendiente"
+        }
+      ],
+      "estado": "pendiente",
+      "horas_reales": null
     },
     {
       "id": "HU-02",
       "titulo": "Video de demostración y ajustes finales",
-      "prioridad": "must", "comprometida": true, "horas_estimadas": 4, "horas_version_anterior": 4,
+      "prioridad": "must",
+      "comprometida": true,
+      "horas_estimadas": 4,
+      "horas_version_anterior": 4,
       "recorte": "Dos a tres minutos, sin edición elaborada",
-      "depende_de": ["HU-01"],
-      "transiciones_habilitadas": [], "guardas": [],
-      "criterios_aceptacion": [
-        { "id": "CA-02-1", "dado": "La prueba de concepto funcionando", "cuando": "Se graba el video", "entonces": "Muestra en este orden el problema, la firma sin XLM, el enlace en el explorador y la verificación por un tercero", "tipo": "camino_valido", "guarda": null, "caso_esencial_plan_b": true, "resultado": "pendiente" }
+      "depende_de": [
+        "HU-01"
       ],
-      "estado": "pendiente", "horas_reales": null
+      "transiciones_habilitadas": [],
+      "guardas": [],
+      "criterios_aceptacion": [
+        {
+          "id": "CA-02-1",
+          "dado": "La prueba de concepto funcionando",
+          "cuando": "Se graba el video",
+          "entonces": "Muestra en este orden el problema, la firma sin XLM, el enlace en el explorador y la verificación por un tercero",
+          "tipo": "camino_valido",
+          "guarda": null,
+          "caso_esencial_plan_b": true,
+          "resultado": "pendiente"
+        }
+      ],
+      "estado": "pendiente",
+      "horas_reales": null
     }
   ],
   "plan_diario": [
-    { "dia": "D1", "fecha": "2026-09-28", "asignaciones": [{ "historia": "HU-00", "horas": 4 }], "ceremonias": [{ "tipo": "planning", "horas": 1 }, { "tipo": "daily", "horas": 0.25 }], "hitos": [] },
-    { "dia": "D2", "fecha": "2026-09-29", "asignaciones": [{ "historia": "HU-01", "horas": 6 }], "ceremonias": [{ "tipo": "daily", "horas": 0.25 }], "hitos": ["punto_control"] },
-    { "dia": "D3", "fecha": "2026-09-30", "asignaciones": [{ "historia": "HU-02", "horas": 4 }], "ceremonias": [{ "tipo": "daily", "horas": 0.25 }, { "tipo": "revision", "horas": 0.5 }, { "tipo": "retrospectiva", "horas": 0.25 }], "hitos": ["demo"] }
+    {
+      "dia": "D1",
+      "fecha": "2026-10-05",
+      "asignaciones": [
+        {
+          "historia": "HU-00",
+          "horas": 4
+        },
+        {
+          "historia": "HU-01",
+          "horas": 1
+        }
+      ],
+      "ceremonias": [
+        {
+          "tipo": "planning",
+          "horas": 1
+        },
+        {
+          "tipo": "daily",
+          "horas": 0.25
+        }
+      ],
+      "hitos": []
+    },
+    {
+      "dia": "D2",
+      "fecha": "2026-10-06",
+      "asignaciones": [
+        {
+          "historia": "HU-01",
+          "horas": 6
+        }
+      ],
+      "ceremonias": [
+        {
+          "tipo": "daily",
+          "horas": 0.25
+        }
+      ],
+      "hitos": [
+        "punto_control"
+      ]
+    },
+    {
+      "dia": "D3",
+      "fecha": "2026-10-07",
+      "asignaciones": [
+        {
+          "historia": "HU-02",
+          "horas": 4
+        }
+      ],
+      "ceremonias": [
+        {
+          "tipo": "daily",
+          "horas": 0.25
+        },
+        {
+          "tipo": "revision",
+          "horas": 1
+        },
+        {
+          "tipo": "retrospectiva",
+          "horas": 0.25
+        }
+      ],
+      "hitos": [
+        "demo"
+      ]
+    }
   ],
   "burndown_planificado": [
-    { "corte": "inicio", "horas_restantes": 14, "ideal": 14 },
-    { "corte": "2026-09-28", "horas_restantes": 10, "ideal": 9.33 },
-    { "corte": "2026-09-29", "horas_restantes": 4, "ideal": 4.67 },
-    { "corte": "2026-09-30", "horas_restantes": 0, "ideal": 0 }
+    {
+      "corte": "inicio",
+      "horas_restantes": 15,
+      "ideal": 15
+    },
+    {
+      "corte": "2026-10-05",
+      "horas_restantes": 10,
+      "ideal": 10
+    },
+    {
+      "corte": "2026-10-06",
+      "horas_restantes": 4,
+      "ideal": 5
+    },
+    {
+      "corte": "2026-10-07",
+      "horas_restantes": 0,
+      "ideal": 0
+    }
   ],
   "punto_control": {
-    "fecha": "2026-09-29",
-    "condicion_exito": "La firma sin XLM se confirma en testnet al cierre del día",
+    "fecha": "2026-10-06",
+    "condicion_exito": "La firma sin XLM se confirma en testnet y el reenvío de la misma autorización es rechazado",
     "umbral_horas_restantes": 4,
     "plan_b": [
-      { "historia": "HU-02", "horas_nuevas": 2, "descripcion": "Video mínimo con captura de pantalla y enlace al explorador, sin narración editada" }
+      {
+        "historia": "HU-02",
+        "horas_nuevas": 2,
+        "descripcion": "Video mínimo con captura de pantalla y enlace al explorador, sin narración editada"
+      }
     ]
   },
   "definicion_terminado": {
@@ -112,43 +321,183 @@
       "Los enlaces citados abren y muestran lo que el texto afirma"
     ],
     "por_sprint": "Un evaluador abre el repositorio, ejecuta el validador, sigue el enlace de la transacción en testnet y comprueba que una entidad firmó sin poseer XLM.",
-    "comprobaciones_verificador": ["huella_pdf_coincide", "compromiso_canonico_coincide"],
+    "comprobaciones_verificador": [
+      "huella_pdf_coincide",
+      "compromiso_canonico_coincide"
+    ],
     "huella_documento": null
   },
   "riesgos": [
     {
-      "id": "R-01", "descripcion": "El referido del capítulo no se concreta y la preparación queda sin destino inmediato", "probabilidad": "media", "impacto": "medio",
+      "id": "R-01",
+      "descripcion": "El referido del capítulo no se concreta y la preparación queda sin destino inmediato",
+      "probabilidad": "media",
+      "impacto": "medio",
       "mitigacion": "El repositorio y la prueba de concepto sirven igual para el fondo chileno y para la relación con la SGTD",
-      "disparador": "Cuatro semanas sin respuesta del capítulo", "historias_afectadas": ["HU-00", "HU-01"], "referencia": null
+      "disparador": "Cuatro semanas sin respuesta del capítulo",
+      "historias_afectadas": [
+        "HU-00",
+        "HU-01"
+      ],
+      "referencia": null
     },
     {
-      "id": "R-02", "descripcion": "Reinicio trimestral de testnet que invalide el enlace mostrado en el video", "probabilidad": "media", "impacto": "bajo",
+      "id": "R-02",
+      "descripcion": "Reinicio trimestral de testnet que invalide el enlace mostrado en el video",
+      "probabilidad": "media",
+      "impacto": "bajo",
       "mitigacion": "Registrar en el README la fecha de la transacción y dejar el script para reproducirla en minutos",
-      "disparador": "Anuncio de reinicio antes del envío de la postulación", "historias_afectadas": ["HU-01", "HU-02"], "referencia": { "apa": "Blockdaemon. (s. f.). Stellar quarterly testnet reset.", "url": "https://docs.blockdaemon.com/docs/stellar-quarterly-testnet-reset" }
+      "disparador": "Anuncio de reinicio antes del envío de la postulación",
+      "historias_afectadas": [
+        "HU-01",
+        "HU-02"
+      ],
+      "referencia": {
+        "apa": "Blockdaemon. (s. f.). Stellar quarterly testnet reset.",
+        "url": "https://docs.blockdaemon.com/docs/stellar-quarterly-testnet-reset"
+      }
     },
     {
-      "id": "R-03", "descripcion": "Las 14 horas se ejecutan antes de la adjudicación y quedan sin pago si no se adjudica", "probabilidad": "media", "impacto": "bajo",
+      "id": "R-03",
+      "descripcion": "Las 14 horas se ejecutan antes de la adjudicación y quedan sin pago si no se adjudica",
+      "probabilidad": "media",
+      "impacto": "bajo",
       "mitigacion": "Acuerdo escrito de una página: se pagan con cargo a la contingencia de la Etapa 1 en el primer hito, si se adjudica; el desarrollador conoce el riesgo de antemano",
-      "disparador": "Rechazo de la postulación", "historias_afectadas": ["HU-00", "HU-01", "HU-02"], "referencia": null
+      "disparador": "Rechazo de la postulación",
+      "historias_afectadas": [
+        "HU-00",
+        "HU-01",
+        "HU-02"
+      ],
+      "referencia": null
     }
   ],
   "dependencias_externas": [
-    { "id": "DEP-01", "solicitud": "Referido de un Chapter Lead del capítulo Stellar para habilitar la postulación", "responsable": "dueno_producto", "necesaria_para_sprint": "S01", "transiciones": [], "bloquea_sprint_actual": false, "estado": "por_solicitar" },
-    { "id": "DEP-02", "solicitud": "Constancia y fecha de publicación legal de la Ordenanza 001-2026-MPT", "responsable": "ogpp", "necesaria_para_sprint": "S01", "transiciones": ["T1_vigente"], "bloquea_sprint_actual": false, "estado": "por_solicitar" },
-    { "id": "DEP-03", "solicitud": "Acta y cuadro de puntajes en versión pública sin DNI de ambas municipalidades", "responsable": "ogpp", "necesaria_para_sprint": "S01", "transiciones": ["T5_priorizado", "T6_acta_formalizada"], "bloquea_sprint_actual": false, "estado": "por_solicitar" },
-    { "id": "DEP-04", "solicitud": "CUI de los proyectos priorizados y techo presupuestal del proceso", "responsable": "ogpp", "necesaria_para_sprint": "S02", "transiciones": ["T9_incorporado_pia"], "bloquea_sprint_actual": false, "estado": "por_solicitar" }
+    {
+      "id": "DEP-01",
+      "solicitud": "Referido de un Chapter Lead del capítulo Stellar para habilitar la postulación",
+      "responsable": "dueno_producto",
+      "necesaria_para_sprint": "S01",
+      "transiciones": [],
+      "bloquea_sprint_actual": false,
+      "estado": "por_solicitar"
+    },
+    {
+      "id": "DEP-02",
+      "solicitud": "Constancia y fecha de publicación legal de la Ordenanza 001-2026-MPT",
+      "responsable": "ogpp",
+      "necesaria_para_sprint": "S02",
+      "transiciones": [
+        "T1_vigente"
+      ],
+      "bloquea_sprint_actual": false,
+      "estado": "por_solicitar"
+    },
+    {
+      "id": "DEP-03",
+      "solicitud": "Acta y cuadro de puntajes en versión pública sin DNI de ambas municipalidades",
+      "responsable": "ogpp",
+      "necesaria_para_sprint": "S02",
+      "transiciones": [
+        "T5_priorizado",
+        "T6_acta_formalizada"
+      ],
+      "bloquea_sprint_actual": false,
+      "estado": "por_solicitar"
+    },
+    {
+      "id": "DEP-04",
+      "solicitud": "CUI de los proyectos priorizados y techo presupuestal del proceso, necesarios antes del cierre del PIA 2027",
+      "responsable": "ogpp",
+      "necesaria_para_sprint": "S02",
+      "transiciones": [
+        "T9_incorporado_pia"
+      ],
+      "bloquea_sprint_actual": false,
+      "estado": "por_solicitar"
+    }
   ],
   "trabajo_diferido": [
-    { "item": "Contrato de génesis con las guardas G1, G2 y G6 y sus pruebas", "historia": null, "destino_sprint": "S01", "motivo": "Es el objeto de la instaward: financiarlo, no anticiparlo" },
-    { "item": "Ingesta con los dos perfiles de firma, digital y escaneada", "historia": null, "destino_sprint": "S01", "motivo": "Requiere los documentos de ambas municipalidades" },
-    { "item": "Verificador ciudadano web", "historia": null, "destino_sprint": "S01", "motivo": "Entregable E4 de la Etapa 1" },
-    { "item": "Empaquetado del Institutional Signer Kit como componente reutilizable", "historia": null, "destino_sprint": "S01", "motivo": "La preparación solo demuestra el patrón; el kit se construye financiado" },
-    { "item": "Tokenización, sustitución y perfil del Vaso de Leche", "historia": null, "destino_sprint": "S02", "motivo": "Segunda iteración" }
+    {
+      "item": "Contrato de génesis con las guardas G1, G2 y G6 y sus pruebas",
+      "historia": null,
+      "destino_sprint": "S02",
+      "motivo": "Es el objeto de la instaward: financiarlo, no anticiparlo"
+    },
+    {
+      "item": "Ingesta con los dos perfiles de firma, digital y escaneada",
+      "historia": null,
+      "destino_sprint": "S02",
+      "motivo": "Requiere los documentos de ambas municipalidades"
+    },
+    {
+      "item": "Verificador ciudadano web",
+      "historia": null,
+      "destino_sprint": "S02",
+      "motivo": "Entregable E4 de la Etapa 1"
+    },
+    {
+      "item": "Empaquetado del Institutional Signer Kit como componente reutilizable",
+      "historia": null,
+      "destino_sprint": "S02",
+      "motivo": "La preparación solo demuestra el patrón; el kit se construye financiado"
+    },
+    {
+      "item": "Tokenización, sustitución y perfil del Vaso de Leche",
+      "historia": null,
+      "destino_sprint": "S03",
+      "motivo": "Segunda iteración"
+    }
   ],
   "hoja_ruta": [
-    { "sprint": "S00", "fecha_inicio": "2026-09-28", "fecha_fin": "2026-09-30", "dias_habiles": 3, "incremento": "Evidencia mínima para postular: repositorio, prueba de concepto de firma sin XLM y video", "transiciones": [] },
-    { "sprint": "S01", "fecha_inicio": "2026-10-01", "fecha_fin": "2026-10-30", "dias_habiles": 21, "incremento": "Etapa 1 financiada: Institutional Signer Kit v1, registro del ciclo T0 a T8 en testnet, validador v2, verificador ciudadano e investigación de usuario en Tocache y La Punta", "transiciones": ["T0_ordenanza_aprobada", "T1_vigente", "T2_convocado", "T3_acreditacion_cerrada", "T4_taller_realizado", "T5_priorizado", "T6_acta_formalizada", "T7_comite_instalado", "T8_remitido_mef"] },
-    { "sprint": "S02", "fecha_inicio": "2026-11-02", "fecha_fin": "2026-12-15", "dias_habiles": 31, "incremento": "Etapa 2 financiada: tokenización, sustitución, multifirma por rol y ciclo, y primer perfil de beneficio entregado en el Programa del Vaso de Leche", "transiciones": ["T9_incorporado_pia", "T10_vigilado", "T11_sustituido", "T12_rendido_cuentas", "T13_ciclo_cerrado"] }
+    {
+      "sprint": "S00",
+      "fecha_inicio": "2026-10-05",
+      "fecha_fin": "2026-10-07",
+      "dias_habiles": 3,
+      "incremento": "Evidencia mínima para postular: repositorio, prueba de concepto de firma sin XLM con no reutilización, y video",
+      "transiciones": []
+    },
+    {
+      "sprint": "S01",
+      "fecha_inicio": "2026-10-09",
+      "fecha_fin": "2026-10-30",
+      "dias_habiles": 16,
+      "incremento": "Ventana de postulación: envío al capítulo, revisión del Chapter Lead, resolución y verificación de identidad. Sin desarrollo comprometido",
+      "transiciones": []
+    },
+    {
+      "sprint": "S02",
+      "fecha_inicio": "2026-11-02",
+      "fecha_fin": "2026-12-04",
+      "dias_habiles": 25,
+      "incremento": "Etapa 1 financiada: Institutional Signer Kit v1, registro del ciclo T0 a T9 en testnet, validador v2, verificador ciudadano e investigación de usuario en Tocache y La Punta. Incluye T9 porque la incorporación al PIA 2027 ocurre antes del cierre del año",
+      "transiciones": [
+        "T0_ordenanza_aprobada",
+        "T1_vigente",
+        "T2_convocado",
+        "T3_acreditacion_cerrada",
+        "T4_taller_realizado",
+        "T5_priorizado",
+        "T6_acta_formalizada",
+        "T7_comite_instalado",
+        "T8_remitido_mef",
+        "T9_incorporado_pia"
+      ]
+    },
+    {
+      "sprint": "S03",
+      "fecha_inicio": "2026-12-07",
+      "fecha_fin": "2027-01-22",
+      "dias_habiles": 32,
+      "incremento": "Etapa 2 financiada: tokenización y emisión retroactiva de tokens por proyecto, sustitución, multifirma por rol y ciclo, y primer perfil de beneficio entregado en el Programa del Vaso de Leche",
+      "transiciones": [
+        "T10_vigilado",
+        "T11_sustituido",
+        "T12_rendido_cuentas",
+        "T13_ciclo_cerrado"
+      ]
+    }
   ],
   "seguimiento": {
     "horas_reales_por_dia": [],
@@ -164,3 +513,6 @@
     }
   }
 }
+
+
+
