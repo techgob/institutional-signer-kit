@@ -56,9 +56,14 @@ python3 data-contract/validar_ingesta.py --pruebas
 
 # validate a real ordinance against the schema
 python3 data-contract/validar_ingesta.py data-contract/ejemplo_ordenanza_001-2026-MPT.json
+
+# local verifier: 4 test cases
+python3 -m unittest discover verifier
 ```
 
 The second command reports the ordinance as `observado` and lists 16 inconsistencies found in the real document. That is the expected result: the validator blocks anchoring until the hash is verified against the official source.
+
+To reproduce the signature without XLM on testnet (HU-01), follow `signer-kit/README.md`. To check a document against its commitment, see `verifier/README.md`.
 
 ## Repository map
 
