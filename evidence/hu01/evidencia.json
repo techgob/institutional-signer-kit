@@ -1,37 +1,38 @@
-{
-  "contrato": "CDGCV3TDCJCKR3LO3V6ACWVC4PIHIKJJOF5COR5VJTO6RDLVZ4TSBL27",
-  "rol": "GA73IU5SLHFAV3MTNQKNXU5A65YCZMGC4ZWR7AR65VWP4QYTHXCT277V",
-  "rol_saldo_xlm_al_final": "0.0000000",
-  "operador": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
-  "tercero": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
-  "transacciones": [
-    {
-      "paso": "CA-01-1 operador transmite A",
-      "estado": "SUCCESS",
-      "hash": "43a023a86b5e1c2080c9b287c50d7ffd740f8770a121d8ab6746797a8baa8dfb",
-      "enlace": "https://stellar.expert/explorer/testnet/tx/43a023a86b5e1c2080c9b287c50d7ffd740f8770a121d8ab6746797a8baa8dfb",
-      "transmite_y_paga": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
-      "comision_stroops": 13672,
-      "ledger": 5012737
-    },
-    {
-      "paso": "CA-01-2 tercero transmite B publicada",
-      "estado": "SUCCESS",
-      "hash": "3494c8549398be7a24e0765d27e2479c42d8e289cbcd033867f229e56a02236d",
-      "enlace": "https://stellar.expert/explorer/testnet/tx/3494c8549398be7a24e0765d27e2479c42d8e289cbcd033867f229e56a02236d",
-      "transmite_y_paga": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
-      "comision_stroops": 13672,
-      "ledger": 5012738
-    },
-    {
-      "paso": "CA-01-3 tercero reenvía A (debe fallar)",
-      "estado": "FAILED",
-      "hash": "2b777c4a056607b62a72f1219c749f0368dc209243754aed25ebe3d28da04503",
-      "enlace": "https://stellar.expert/explorer/testnet/tx/2b777c4a056607b62a72f1219c749f0368dc209243754aed25ebe3d28da04503",
-      "transmite_y_paga": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
-      "comision_stroops": 10097,
-      "ledger": 5012739
-    }
-  ],
-  "criterios_cumplidos": true
+{
+  "contrato": "CDGCV3TDCJCKR3LO3V6ACWVC4PIHIKJJOF5COR5VJTO6RDLVZ4TSBL27",
+  "rol": "GA73IU5SLHFAV3MTNQKNXU5A65YCZMGC4ZWR7AR65VWP4QYTHXCT277V",
+  "rol_saldo_xlm_al_final": "0.0000000",
+  "huella_invocada": "ecb79e4c749c346502b2696a6802e638960a4d4f74f7e5677c890cf70028361b",
+  "operador": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
+  "tercero": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
+  "transacciones": [
+    {
+      "paso": "CA-01-1 operador transmite A",
+      "estado": "SUCCESS",
+      "hash": "8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f",
+      "transmite_y_paga": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
+      "comision_stroops": 13677,
+      "ledger": 5026465
+    },
+    {
+      "paso": "CA-01-2 tercero transmite B publicada",
+      "estado": "SUCCESS",
+      "hash": "fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd",
+      "transmite_y_paga": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
+      "comision_stroops": 13677,
+      "ledger": 5026466
+    },
+    {
+      "paso": "CA-01-3 tercero reenvía A (debe fallar)",
+      "estado": "FAILED",
+      "hash": "ac8f406c08dac361b07efffb92deae0cf9b85e2044ffa50f953137eb7a7f0542",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/ac8f406c08dac361b07efffb92deae0cf9b85e2044ffa50f953137eb7a7f0542",
+      "transmite_y_paga": "GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS",
+      "comision_stroops": 10097,
+      "ledger": 5026467
+    }
+  ],
+  "criterios_cumplidos": true
 }
