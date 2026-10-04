@@ -1,5 +1,3 @@
-
-Sprint s00 preparacion postulacion · JSON
 {
   "version_esquema": "1.0.0",
   "proyecto": {
@@ -87,9 +85,9 @@ Sprint s00 preparacion postulacion · JSON
         "horas": 0.25
       }
     ],
-    "horas_netas": 18,
+    "horas_netas": 18.0,
     "colchon_porcentaje": 0.17,
-    "colchon_horas": 3,
+    "colchon_horas": 3.0,
     "horas_comprometidas": 15
   },
   "backlog": [
@@ -288,12 +286,12 @@ Sprint s00 preparacion postulacion · JSON
     {
       "corte": "2026-10-05",
       "horas_restantes": 10,
-      "ideal": 10
+      "ideal": 10.0
     },
     {
       "corte": "2026-10-06",
       "horas_restantes": 4,
-      "ideal": 5
+      "ideal": 5.0
     },
     {
       "corte": "2026-10-07",
@@ -513,6 +511,3 @@ Sprint s00 preparacion postulacion · JSON
     }
   }
 }
-
-
-
