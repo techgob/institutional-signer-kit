@@ -36,6 +36,9 @@ jobs:
       - name: La ordenanza real valida y queda observada
         run: python3 data-contract/validar_ingesta.py data-contract/ejemplo_ordenanza_001-2026-MPT.json
 
+      - name: El verificador local pasa sus 4 casos
+        run: python3 -m unittest discover verifier
+
   plan-de-sprint:
     name: Plan de sprint
     runs-on: ubuntu-latest

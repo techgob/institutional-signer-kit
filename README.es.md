@@ -29,8 +29,8 @@ Para la entidad: saldo cero en XLM, ninguna partida presupuestal, ninguna custod
 
 | | |
 |---|---|
-| Separación firmante-pagador en testnet | `[enlace a la transacción — día 2]` |
-| La misma autorización transmitida por un tercero | `[enlace a la transacción — día 2]` |
+| Separación firmante-pagador en testnet | [`43a023a8…8dfb`](https://stellar.expert/explorer/testnet/tx/43a023a86b5e1c2080c9b287c50d7ffd740f8770a121d8ab6746797a8baa8dfb) |
+| Autorización del rol publicada como XDR y transmitida por un tercero | [`3494c854…236d`](https://stellar.expert/explorer/testnet/tx/3494c8549398be7a24e0765d27e2479c42d8e289cbcd033867f229e56a02236d) |
 | Video de demostración (2 min) | `[enlace]` |
 
 ## Validado en un caso real

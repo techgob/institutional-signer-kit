@@ -29,8 +29,8 @@ For the institution: zero XLM, no budget line, no asset custody, and an authoriz
 
 | | |
 |---|---|
-| Fee-payer separation on testnet | `[transaction link — day 2]` |
-| Same authorization relayed by a third party | `[transaction link — day 2]` |
+| Fee-payer separation on testnet | [`43a023a8…8dfb`](https://stellar.expert/explorer/testnet/tx/43a023a86b5e1c2080c9b287c50d7ffd740f8770a121d8ab6746797a8baa8dfb) |
+| Role-signed authorization, published as XDR and relayed by a third party | [`3494c854…236d`](https://stellar.expert/explorer/testnet/tx/3494c8549398be7a24e0765d27e2479c42d8e289cbcd033867f229e56a02236d) |
 | Demo video (2 min) | `[link]` |
 
 ## Validated on a real case
