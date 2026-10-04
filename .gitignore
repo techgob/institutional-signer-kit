@@ -1,0 +1,8 @@
+target/
+__pycache__/
+signer-kit/salida/
+data-contract/carga_admitida_*.json
+data-contract/transaccion_*.json
+data-contract/casos_prueba/
+planning/casos_prueba/
+planning/hito_publico_*.json
