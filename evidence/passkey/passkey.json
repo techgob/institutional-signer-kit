@@ -1,0 +1,46 @@
+{
+  "contrato_registro": "CDGCV3TDCJCKR3LO3V6ACWVC4PIHIKJJOF5COR5VJTO6RDLVZ4TSBL27",
+  "cuenta_rol": "CD7T3FZ4WBVNXTQKFDFEIZ5INVYNP6COK2J4VH47U6I6CHWU5X7NMGUY",
+  "passkey_ciclo_1": "04c01525c8b6ea562bc7cd931b2f9fee82b9102b9bb0fbafdd216d5abb5c13ad7a729d7777888aec7500697aecd2462b82caa5588bcf7b0e57a49b4fb992630b10",
+  "passkey_ciclo_2": "042e2daa4ea619084e2734260e389f08b39368fe5bd66eb8c45b2ead44d180747dcb101365b69fc8b0cbbac43d02590657af3d1745fa7abf91a9f87b910917b578",
+  "operador": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+  "transacciones": [
+    {
+      "paso": "P-1 la passkey del ciclo 1 autoriza un registro",
+      "estado": "SUCCESS",
+      "hash": "75ef39a5e718d1e689952af6e096f2e510baa25f359c5b96c9de275c5f2b5f64",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/75ef39a5e718d1e689952af6e096f2e510baa25f359c5b96c9de275c5f2b5f64",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 15061,
+      "ledger": 5040414
+    },
+    {
+      "paso": "P-2 la passkey del ciclo 1 autoriza la rotación al ciclo 2",
+      "estado": "SUCCESS",
+      "hash": "1afc57e34014fc2bd49549d31604e5900e246253b382fbe6095afb7cd6ac8756",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/1afc57e34014fc2bd49549d31604e5900e246253b382fbe6095afb7cd6ac8756",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 17316,
+      "ledger": 5040415
+    },
+    {
+      "paso": "P-3 la passkey del ciclo 1 intenta registrar (debe fallar)",
+      "estado": "FAILED",
+      "hash": "ab6e2d83df750351a050c2eb5f206474303b35c13b114c1a2d464b3fdc79e8a6",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/ab6e2d83df750351a050c2eb5f206474303b35c13b114c1a2d464b3fdc79e8a6",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 11510,
+      "ledger": 5040416
+    },
+    {
+      "paso": "P-4 la passkey del ciclo 2 autoriza un registro con la misma dirección",
+      "estado": "SUCCESS",
+      "hash": "39dcbe8820165d0f0048c32db3da41e61adb03dd50f8bb46901a07eaf95c7fb2",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/39dcbe8820165d0f0048c32db3da41e61adb03dd50f8bb46901a07eaf95c7fb2",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 15061,
+      "ledger": 5040417
+    }
+  ],
+  "criterios_cumplidos": true
+}
