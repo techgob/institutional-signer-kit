@@ -26,7 +26,7 @@ El resumen que generó el script está en `hu01/evidencia.json` y la entrada B p
 Saldo XLM del rol al terminar la corrida: 0.
 
 A y B autorizan la misma invocación: mismo contrato, función y argumentos (la huella está en `hu01/evidencia.json`). Solo cambia el nonce, y por eso cada entrada sirve una vez.
-La creación de la cuenta del rol (paso 0) es del 3 de octubre; las demás transacciones, del 4 de octubre.
+La creación de la cuenta del rol (paso 0) es del 3 de octubre en hora de Lima, que el explorador muestra como 2026-10-04 04:13 UTC. Las demás transacciones son del 4 de octubre, entre las 23:18 y las 23:19 UTC.
 La explicación está en `../signer-kit/README.md`.
 
 ## Nota sobre la permanencia de estos enlaces
