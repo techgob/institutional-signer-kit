@@ -44,3 +44,47 @@ El nonce de cada entrada de autorización la hace de un solo uso. Si el operador
 una entrada, un tercero no puede transmitir la misma: la red la rechaza. Por eso la corrida usa
 dos entradas firmadas por el rol para la misma invocación, con nonces distintos. La A la transmite el operador (CA-01-1), la B se publica como
 XDR y la transmite un tercero (CA-01-2), y el reenvío de A es el que la red rechaza (CA-01-3).
+
+## Traspaso de operador
+
+`traspaso.py` cambia el operador que paga sin tocar el contrato ni la clave del rol. El operador
+entrante pasa a patrocinar la reserva de la cuenta del rol en una transacción que firman los dos
+(el saliente revoca su patrocinio dentro de `BeginSponsoringFutureReserves` del entrante). Después
+el rol firma y el entrante transmite y paga.
+
+```sh
+stellar keys generate tg-operador2 --network testnet --fund
+python signer-kit/traspaso.py <contract_id> tg-operador tg-operador2
+```
+
+Del lado del operador, el traspaso es eso: una cuenta propia con fondos, el kit apuntando a ella y
+esa transacción. Si el operador saliente desaparece sin firmar, la cuenta del rol sigue
+funcionando; su reserva solo queda patrocinada por él. El contrato no lleva una lista de pagadores:
+cualquier cuenta puede pagar, y por eso un tercero puede transmitir si el operador falla.
+
+## Rotación por ciclo con passkey
+
+`passkey.py` usa como rol una cuenta de contrato (`../contracts/cuenta-passkey`) controlada por una
+passkey P-256 en formato WebAuthn. La dirección de la cuenta es la identidad del rol en el registro
+y no cambia; la passkey se rota al cerrar cada ciclo. Esta cuenta no necesita cuenta clásica ni
+reserva.
+
+```sh
+cd contracts/cuenta-passkey && cargo test && stellar contract build && cd ../..
+python signer-kit/passkey.py <contract_id> tg-operador2
+```
+
+El script despliega la cuenta con la passkey del ciclo 1, registra, rota a la del ciclo 2, deja en
+la red el rechazo de la passkey vieja y registra con la nueva. Las passkeys se generan en software
+y quedan en `signer-kit/salida/passkeys/`, que no se versiona. Falta probar la ceremonia con un
+autenticador real en el navegador.
+
+## Usarlo con un contrato propio
+
+El contrato tiene que exigir la firma del rol con `rol.require_auth()` en la función que se
+invoca, como hace `../contracts/ejemplo`. Hoy los tres scripts invocan `registrar(rol, huella)`;
+para otra función hay que cambiar el nombre y los argumentos en `invocacion`. Generalizarlo es
+parte del empaquetado como v1.
+
+Para comprobar que tus transacciones cumplen lo que el kit promete, pásalas por
+`../verifier/conformidad.py` (ver `../verifier/README.md`).
