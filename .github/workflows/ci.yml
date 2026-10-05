@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
 
       - name: Instalar dependencias
-        run: pip install "jsonschema[format]"
+        run: pip install "jsonschema[format]" -r signer-kit/requirements.txt
 
       - name: El esquema de ingesta está bien formado
         run: |
@@ -36,7 +36,7 @@ jobs:
       - name: La ordenanza real valida y queda observada
         run: python3 data-contract/validar_ingesta.py data-contract/ejemplo_ordenanza_001-2026-MPT.json
 
-      - name: El verificador local pasa sus 4 casos
+      - name: El verificador local y las pruebas de conformidad pasan
         run: python3 -m unittest discover verifier
 
   plan-de-sprint:

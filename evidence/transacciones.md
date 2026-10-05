@@ -29,6 +29,46 @@ A y B autorizan la misma invocación: mismo contrato, función y argumentos (la 
 La creación de la cuenta del rol (paso 0) es del 3 de octubre en hora de Lima, que el explorador muestra como 2026-10-04 04:13 UTC. Las demás transacciones son del 4 de octubre, entre las 23:18 y las 23:19 UTC.
 La explicación está en `../signer-kit/README.md`.
 
+## Traspaso de operador
+
+Corrida de `signer-kit/traspaso.py` del 5 de octubre de 2026, mismo contrato y misma clave de rol
+que HU-01. Un segundo operador asume el pago sin que cambie nada en el contrato ni en la clave del
+rol. El resumen está en `operador/traspaso.json`.
+
+| Paso | Qué demuestra | Resultado | Transacción | Comisión |
+|---|---|---|---|---|
+| T-1 | El operador entrante pasa a patrocinar la reserva de la cuenta del rol (el saliente revoca su patrocinio dentro de `BeginSponsoringFutureReserves` del entrante; firman los dos) | éxito | [`56d28359…f9c8`](https://stellar.expert/explorer/testnet/tx/56d283596d0dfc3d158b7de4c8eb034b1dba30c06659789ac800826434fcf9c8) | 300 stroops, operador entrante |
+| T-2 | El rol firma y el operador entrante transmite y paga | éxito | [`60d81df7…3c97`](https://stellar.expert/explorer/testnet/tx/60d81df7b9b131b1fd919eebf5b79368d4486f39a9ed3fd0bcbeca4258333c97) | 13 673 stroops, operador entrante |
+
+Patrocinador de la reserva del rol antes de T-1: `GDDZ3HMM…UQKM`. Después: `GCL4OWVD…6NKO`.
+Si el operador saliente desaparece sin firmar T-1, la cuenta del rol sigue funcionando; su reserva
+solo queda patrocinada por él.
+
+## Rotación por ciclo con passkey
+
+Corrida de `signer-kit/passkey.py` del 5 de octubre de 2026. El rol es la cuenta de contrato
+[`CD7T3FZ4…MGUY`](https://stellar.expert/explorer/testnet/contract/CD7T3FZ4WBVNXTQKFDFEIZ5INVYNP6COK2J4VH47U6I6CHWU5X7NMGUY)
+(`contracts/cuenta-passkey`), controlada por una passkey P-256 con formato WebAuthn. La dirección
+queda fija en el registro y la passkey cambia de ciclo. Paga todo el operador entrante. El resumen
+está en `passkey/passkey.json`.
+
+| Paso | Qué demuestra | Resultado | Transacción | Comisión |
+|---|---|---|---|---|
+| P-1 | La passkey del ciclo 1 autoriza un registro | éxito | [`75ef39a5…5f64`](https://stellar.expert/explorer/testnet/tx/75ef39a5e718d1e689952af6e096f2e510baa25f359c5b96c9de275c5f2b5f64) | 15 061 stroops, operador |
+| P-2 | La passkey del ciclo 1 autoriza la rotación a la del ciclo 2 | éxito | [`1afc57e3…8756`](https://stellar.expert/explorer/testnet/tx/1afc57e34014fc2bd49549d31604e5900e246253b382fbe6095afb7cd6ac8756) | 17 316 stroops, operador |
+| P-3 | La passkey del ciclo 1 intenta otro registro | rechazada: `failed secp256r1 verification` en `__check_auth` | [`ab6e2d83…e8a6`](https://stellar.expert/explorer/testnet/tx/ab6e2d83df750351a050c2eb5f206474303b35c13b114c1a2d464b3fdc79e8a6) | 11 510 stroops, operador |
+| P-4 | La passkey del ciclo 2 autoriza un registro con la misma dirección de rol | éxito | [`39dcbe88…7fb2`](https://stellar.expert/explorer/testnet/tx/39dcbe8820165d0f0048c32db3da41e61adb03dd50f8bb46901a07eaf95c7fb2) | 15 061 stroops, operador |
+
+Las passkeys de esta corrida se generan en software con el mismo formato que entrega un
+autenticador WebAuthn. Falta probar la ceremonia con un autenticador real en el navegador; lo que
+ocurre en la red es lo mismo.
+
+## Conformidad
+
+`verifier/conformidad.py` revisa una transacción confirmada contra las propiedades del kit, sin
+claves. Lo puede correr cualquier operador sobre sus propias transacciones. El 5 de octubre dieron
+conforme CA-01-1, CA-01-2, T-2, P-1 y P-4. T-1 y P-3 dieron no conforme, como corresponde.
+
 ## Nota sobre la permanencia de estos enlaces
 
 La red de pruebas de Stellar se reinicia una vez por trimestre y borra todos los datos. Si un enlace de esta tabla deja de resolver, el script de reproducción permite regenerar la transacción en minutos. Por eso se registra también la fecha: un enlace caído después de un reinicio anunciado no invalida la evidencia, solo exige rehacerla.
@@ -37,8 +77,10 @@ La red de pruebas de Stellar se reinicia una vez por trimestre y borra todos los
 
 | Rol | Clave pública | Función |
 |---|---|---|
-| Rol institucional (corrida de HU-01) | `GA73IU5SLHFAV3MTNQKNXU5A65YCZMGC4ZWR7AR65VWP4QYTHXCT277V` | Firma la autorización. Saldo: cero, reserva patrocinada por el operador |
-| Operador | `GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM` | Paga la comisión y transmite |
+| Rol institucional (corrida de HU-01) | `GA73IU5SLHFAV3MTNQKNXU5A65YCZMGC4ZWR7AR65VWP4QYTHXCT277V` | Firma la autorización. Saldo: cero. Reserva patrocinada por el operador hasta T-1, desde entonces por el operador entrante |
+| Operador (saliente desde T-1) | `GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM` | Paga la comisión y transmite |
+| Operador entrante | `GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO` | Paga y transmite desde T-1; paga la corrida de passkey |
 | Tercero | `GAJOFFTN767ZGII3NT6YKBKWEIF3XIMGPSSORZK6HMKVZSEJ3XZ7DZUS` | Retransmite la autorización firmada |
+| Rol con passkey | `CD7T3FZ4WBVNXTQKFDFEIZ5INVYNP6COK2J4VH47U6I6CHWU5X7NMGUY` | Cuenta de contrato; la autoriza la passkey del ciclo vigente |
 
 Ninguna clave privada se versiona en este repositorio.

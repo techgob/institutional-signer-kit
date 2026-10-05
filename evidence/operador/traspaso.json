@@ -1,0 +1,31 @@
+{
+  "contrato": "CDGCV3TDCJCKR3LO3V6ACWVC4PIHIKJJOF5COR5VJTO6RDLVZ4TSBL27",
+  "rol": "GA73IU5SLHFAV3MTNQKNXU5A65YCZMGC4ZWR7AR65VWP4QYTHXCT277V",
+  "rol_saldo_xlm_al_final": "0.0000000",
+  "operador_saliente": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
+  "operador_entrante": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+  "patrocinador_antes": "GDDZ3HMMIJWNP3MCM7NXZ325NYYCSFWPQ6SZIHMUVHSF73CJHKEUUQKM",
+  "patrocinador_despues": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+  "huella_invocada": "10ca711b7554e2227eda20703276caac29a6ffa569c2ef795305b3267b7735f7",
+  "transacciones": [
+    {
+      "paso": "T-1 el operador entrante asume el patrocinio de la reserva del rol",
+      "estado": "SUCCESS",
+      "hash": "56d283596d0dfc3d158b7de4c8eb034b1dba30c06659789ac800826434fcf9c8",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/56d283596d0dfc3d158b7de4c8eb034b1dba30c06659789ac800826434fcf9c8",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 300,
+      "ledger": 5040390
+    },
+    {
+      "paso": "T-2 el operador entrante transmite y paga una firma del rol",
+      "estado": "SUCCESS",
+      "hash": "60d81df7b9b131b1fd919eebf5b79368d4486f39a9ed3fd0bcbeca4258333c97",
+      "enlace": "https://stellar.expert/explorer/testnet/tx/60d81df7b9b131b1fd919eebf5b79368d4486f39a9ed3fd0bcbeca4258333c97",
+      "transmite_y_paga": "GCL4OWVDZ6USNCOJS4VGXOEEISS3TXUMFF425D3IS6CJ4FUQFIG66NKO",
+      "comision_stroops": 13673,
+      "ledger": 5040391
+    }
+  ],
+  "criterios_cumplidos": true
+}
