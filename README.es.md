@@ -57,13 +57,13 @@ python3 data-contract/validar_ingesta.py --pruebas
 # validar una ordenanza real contra el esquema
 python3 data-contract/validar_ingesta.py data-contract/ejemplo_ordenanza_001-2026-MPT.json
 
-# verificador local: 4 casos de prueba
+# verificador local y conformidad: 7 casos de prueba
 python3 -m unittest discover verifier
 ```
 
 El segundo comando reporta la ordenanza como `observado` y lista las 16 inconsistencias halladas en el documento real. Ese es el resultado esperado: el validador bloquea el anclaje mientras la huella no se verifique contra la fuente oficial.
 
-Para reproducir en testnet la firma sin XLM (HU-01), sigue `signer-kit/README.md`. Para comprobar un documento contra su compromiso, ver `verifier/README.md`.
+Para reproducir en testnet la firma sin XLM (HU-01), el traspaso de operador y la rotación con passkey, sigue `signer-kit/README.md`. Para comprobar que las transacciones de un operador son conformes, ver `verifier/README.md`. Para comprobar un documento contra su compromiso, ver `verifier/README.md`.
 
 ## Mapa del repositorio
 
