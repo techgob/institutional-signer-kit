@@ -33,4 +33,4 @@ La documentación y la especificación de este proyecto se elaboraron con asiste
 
 ## Financiamiento
 
-Iteración 1 financiada por el programa Instawards del Stellar Community Fund. El trabajo previo a esa iteración fue autofinanciado por TechGob.
+Iteración 1 financiamiento solicitado al programa Instawards del Stellar Community Fund. El trabajo previo a esa iteración fue autofinanciado por TechGob.
