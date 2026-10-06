@@ -32,7 +32,7 @@ For the institution: zero XLM, no budget line, no asset custody, and an authoriz
 | Fee-payer separation on testnet | [`8ba16039…7e5f`](https://stellar.expert/explorer/testnet/tx/8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f) |
 | Role-signed authorization, published as XDR and relayed by a third party | [`fb284c5b…b8dd`](https://stellar.expert/explorer/testnet/tx/fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd) |
 | Interactive walkthrough of the cycle, with the real evidence | [signerkit.govtechpe.work](https://signerkit.govtechpe.work) |
-| Demo video (2 min) | [https://youtu.be/Pel8UScd8x4] |
+| Demo video (1:41) | [youtu.be/Pel8UScd8x4](https://youtu.be/Pel8UScd8x4) |
 
 ## Validated on a real case
 
