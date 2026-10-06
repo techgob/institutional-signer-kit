@@ -31,7 +31,8 @@ Para la entidad: saldo cero en XLM, ninguna partida presupuestal, ninguna custod
 |---|---|
 | Separación firmante-pagador en testnet | [`8ba16039…7e5f`](https://stellar.expert/explorer/testnet/tx/8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f) |
 | Autorización del rol publicada como XDR y transmitida por un tercero | [`fb284c5b…b8dd`](https://stellar.expert/explorer/testnet/tx/fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd) |
-| Video de demostración (2 min) | `[enlace]` |
+| Recorrido interactivo del ciclo, con la evidencia real | [signerkit.govtechpe.work](https://signerkit.govtechpe.work) |
+| Video de demostración (1:41) | [youtu.be/Pel8UScd8x4](https://youtu.be/Pel8UScd8x4) |
 
 ## Validado en un caso real
 
@@ -75,12 +76,13 @@ Para reproducir en testnet la firma sin XLM (HU-01), el traspaso de operador y l
 | `planning/` | El plan de sprint como datos validados, no como prosa |
 | `evidence/` | Huellas y enlaces de documentos oficiales y transacciones |
 | `docs/` | Statement of Work, máquina de estados, regla de protección de datos, decisiones de arquitectura |
+| `demo/` | Recorrido estático de los ocho hitos, construido desde la especificación y la evidencia registrada |
 
 ## Estado
 
 **Hecho, autofinanciado (unas 45 horas de diseño):** máquina de estados derivada artículo por artículo de las normas de ambas municipalidades; contrato de datos con reglas de admisión por campo; validador en dos capas con 7 casos de prueba; análisis forense de los documentos de ambas entidades; prueba de concepto en testnet de la separación firmante-pagador.
 
-**Lo que financia esta instaward:** Signer Kit v1 empaquetado y documentado; registro del ciclo T0 a T8 en testnet con sus guardas; ingesta v2 con los dos perfiles de documento; verificador ciudadano; investigación de usuario en ambas municipalidades.
+**Alcance de esta postulación a instaward:** Signer Kit v1 empaquetado y documentado; registro del ciclo T0 a T8 en testnet con sus guardas; ingesta v2 con los dos perfiles de documento; verificador ciudadano; investigación de usuario en ambas municipalidades.
 
 **Fuera de alcance por ahora:** tokenización, sustitución de proyectos, multifirma por rol y ciclo, perfil del Programa del Vaso de Leche, mainnet y auditoría externa.
 

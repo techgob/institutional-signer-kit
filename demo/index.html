@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Recorrido de los ocho hitos del ciclo del presupuesto participativo con la evidencia real del Institutional Signer Kit: guardas, inconsistencias detectadas y transacciones en Stellar testnet.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#392639">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Registro Verificable del Presupuesto Participativo">
+<meta property="og:description" content="Catorce transiciones legales, ocho hitos, y la evidencia real en testnet del Institutional Signer Kit.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Registro Verificable del Presupuesto Participativo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: página de una columna sin tarjetas — la estructura se marca con filetes horizontales lavanda,
+   los hitos avanzan por un riel superior, y los datos van en mono blanco sobre ciruela. */
+:root{
+  /* Línea gráfica TechGob · enfoque blockchain */
+  --ciruela:#392639;
+  --ciruela-alta:#422C42;
+  --lavanda:#C2BAFF;
+  --lima:#EDFFA3;
+  --lima-suave:#DCE39A;
+  --dato:#FFFFFF;
+  --filete:#8175A2;
+  --filete-fino:#6E6086;
+  --atenuado:#A79DCB;
+  /* Estados semánticos, desplazados hacia la paleta para no competir con ella */
+  --ok:#EDFFA3;
+  --alerta:#F2C86B;
+  --bloqueo:#FF8E82;
+  --pendiente:#A79DCB;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ciruela);color:var(--lima-suave);
+  font-family:var(--sans);font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:0 60px}
+
+h1,h2,h3,h4{font-family:var(--mono);font-weight:300;color:var(--lavanda);letter-spacing:-.005em;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.6rem,4.4vw,2.5rem);line-height:1.14}
+h2{font-size:clamp(1.12rem,2.7vw,1.45rem)}
+h3{font-size:1rem;font-weight:400}
+h4{font-size:.95rem;font-weight:400}
+p{margin:0}
+strong{color:var(--dato);font-weight:500}
+a{color:var(--lima);text-decoration:none;border-bottom:1px solid rgba(237,255,163,.34)}
+a:hover{border-bottom-color:var(--lima)}
+:focus-visible{outline:2px solid var(--lima);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--dato)}
+
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--lavanda);font-weight:400}
+.eyebrow::before{content:"+ ";color:var(--filete)}
+
+/* ---------- topbar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ciruela);border-bottom:1px solid var(--filete-fino)}
+.topbar-progress{height:2px;background:rgba(129,117,162,.3)}
+.topbar-progress span{display:block;height:100%;background:var(--lima);transition:width .35s ease}
+.topbar-inner{max-width:1040px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.topbar-left{display:flex;align-items:center;gap:10px;min-width:0}
+.brand{font-family:var(--mono);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;color:var(--lavanda);border:1px solid var(--filete);padding:3px 8px;white-space:nowrap}
+.topbar-title{font-family:var(--mono);font-size:.8rem;color:var(--atenuado);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.seg{display:inline-flex;border:1px solid var(--filete)}
+.seg button{font-family:var(--mono);font-size:.74rem;padding:4px 10px;border:0;background:transparent;color:var(--atenuado);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--lavanda);color:var(--ciruela)}
+.step-count{font-family:var(--mono);font-size:.76rem;color:var(--atenuado);font-variant-numeric:tabular-nums}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-block:38px 24px;border-bottom:1px solid var(--filete)}
+.hero::before{
+  content:"";position:absolute;inset:0 0 24px 0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(194,186,255,.16) 0 1px,transparent 1px 9px);
+  -webkit-mask-image:radial-gradient(120% 80% at 88% 10%,#000 0%,transparent 72%);
+  mask-image:radial-gradient(120% 80% at 88% 10%,#000 0%,transparent 72%);
+}
+.hero>*{position:relative}
+.codetag{position:absolute;top:0;right:0;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--filete)}
+.hero-sub{color:var(--lima-suave);max-width:64ch;margin-top:14px}
+.hero-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+.callout{border-left:2px solid var(--lima);padding:4px 0 4px 14px;margin-top:24px;max-width:78ch}
+.callout h3{font-size:.9rem;color:var(--lima)}
+.callout h3::before{content:"> ";color:var(--filete)}
+.callout p{font-size:.88rem;color:var(--atenuado);margin-top:6px}
+
+/* ---------- etiquetas de estado: contorno, nunca relleno ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.69rem;letter-spacing:.04em;padding:3px 8px;border:1px solid var(--filete-fino);color:var(--atenuado);background:transparent;white-space:nowrap}
+.b-ok{border-color:rgba(237,255,163,.5);color:var(--ok)}
+.b-ok::before{content:"✓"}
+.b-warn{border-color:rgba(242,200,107,.5);color:var(--alerta)}
+.b-warn::before{content:"!"}
+.b-block{border-color:rgba(255,142,130,.55);color:var(--bloqueo)}
+.b-block::before{content:"✕"}
+.b-pend{border-color:var(--filete-fino);color:var(--pendiente)}
+.b-pend::before{content:"·"}
+.b-soft{border-color:var(--filete-fino);color:var(--atenuado)}
+
+/* ---------- secciones ---------- */
+section{padding-block:38px;border-bottom:1px solid var(--filete)}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.sec-note{color:var(--lima-suave);font-size:.9rem;max-width:74ch;margin-top:10px}
+
+/* ---------- riel de hitos ---------- */
+.rail{display:flex;gap:0;overflow-x:auto;padding-block:20px 0;scrollbar-width:thin;border-bottom:1px solid var(--filete-fino)}
+.rail button{flex:0 0 auto;min-width:118px;text-align:left;background:transparent;border:0;border-top:2px solid var(--filete-fino);padding:9px 14px 11px 0;margin-right:14px;cursor:pointer;color:var(--atenuado);font-family:var(--mono);transition:border-color .18s,color .18s}
+.rail button:hover{border-top-color:var(--lavanda);color:var(--lavanda)}
+.rail button[aria-current="true"]{border-top-color:var(--lima);color:var(--lima)}
+.rail button small{display:block;font-size:.63rem;letter-spacing:.11em;color:var(--filete)}
+.rail button strong{display:block;font-size:.8rem;font-weight:400;margin-top:3px;color:inherit}
+
+/* ---------- panel del hito ---------- */
+.panel{display:grid;grid-template-columns:1fr;gap:26px;margin-top:24px}
+@media (min-width:780px){.panel{grid-template-columns:1.1fr .9fr;gap:34px}}
+.card{min-width:0}
+.card-head{padding-bottom:12px;border-bottom:1px solid var(--filete-fino);display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.card-body{padding-top:14px;display:flex;flex-direction:column;gap:16px}
+.dl{display:flex;flex-direction:column}
+.dl-row{display:grid;grid-template-columns:1fr;gap:2px;padding-block:9px;border-bottom:1px solid rgba(110,96,134,.5)}
+@media (min-width:520px){.dl-row{grid-template-columns:152px 1fr;gap:14px;align-items:start}}
+.dl-row:last-child{border-bottom:0}
+.dl-row dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--lavanda);padding-top:3px}
+.dl-row dd{margin:0;font-size:.89rem;min-width:0;color:var(--lima-suave)}
+.trans{display:flex;flex-direction:column;gap:9px}
+.trans-item{display:flex;gap:10px;align-items:flex-start;font-size:.88rem}
+.tcode{font-family:var(--mono);font-size:.69rem;color:var(--lima);border:1px solid rgba(237,255,163,.4);padding:1px 6px;flex:0 0 auto;margin-top:2px;font-variant-numeric:tabular-nums}
+.guard{border-left:2px solid var(--filete);padding:2px 0 2px 13px}
+.guard b{font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;color:var(--lavanda);display:block;font-weight:400}
+.guard b::before{content:"> ";color:var(--filete)}
+.guard span{display:block;font-size:.85rem;color:var(--atenuado);margin-top:4px}
+.inc{border-top:1px solid rgba(110,96,134,.55);padding-top:10px}
+.inc-head{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.inc-code{font-family:var(--mono);font-size:.74rem;color:var(--dato)}
+.inc p{font-size:.84rem;color:var(--lima-suave);margin-top:6px}
+.inc em{font-style:normal;font-family:var(--mono);font-size:.69rem;color:var(--filete);display:block;margin-top:5px}
+.stack{display:flex;flex-direction:column;gap:13px}
+.row-chips{display:flex;gap:6px;flex-wrap:wrap}
+.hash{font-family:var(--mono);font-size:.73rem;border:1px solid var(--filete-fino);padding:7px 9px;overflow-x:auto;white-space:nowrap;color:var(--dato)}
+.navbtns{display:flex;gap:10px;justify-content:space-between;margin-top:22px}
+.btn{font-family:var(--mono);font-size:.78rem;padding:7px 14px;border:1px solid var(--filete);background:transparent;color:var(--lavanda);cursor:pointer}
+.btn:hover{border-color:var(--lavanda)}
+.btn-primary{border-color:var(--lima);color:var(--lima)}
+.btn-primary:hover{background:var(--lima);color:var(--ciruela)}
+.btn[disabled]{opacity:.35;cursor:default}
+.btn[disabled]:hover{border-color:var(--filete);background:transparent;color:var(--lavanda)}
+
+/* ---------- piezas y protección de datos ---------- */
+.pieces{display:grid;grid-template-columns:1fr;gap:0;margin-top:22px}
+@media (min-width:660px){.pieces{grid-template-columns:1fr 1fr;column-gap:34px}}
+.piece{border-top:1px solid var(--filete-fino);padding-block:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.piece h3{font-size:.95rem}
+.piece p{font-size:.85rem;color:var(--atenuado)}
+
+/* ---------- tabla ---------- */
+.tbl-wrap{overflow-x:auto;margin-top:22px;border-top:1px solid var(--filete)}
+table{border-collapse:collapse;width:100%;font-size:.83rem;min-width:700px}
+th,td{text-align:left;padding:10px 14px 10px 0;border-bottom:1px solid rgba(110,96,134,.5);vertical-align:top}
+th{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--lavanda);font-weight:400;background:var(--ciruela);position:sticky;top:0}
+td{color:var(--lima-suave)}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--dato)}
+td a{font-family:var(--mono);font-size:.78rem}
+
+/* ---------- verificador ---------- */
+.checks{display:flex;flex-direction:column;gap:0;margin-top:22px}
+.check{border-top:1px solid var(--filete-fino);padding-block:14px;display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:640px){.check{grid-template-columns:26px 1fr auto;align-items:start;gap:14px}}
+.check-mark{font-family:var(--mono);font-size:1rem;line-height:1.3}
+.check h4{font-size:.93rem}
+.check p{font-size:.84rem;color:var(--atenuado);margin-top:4px;max-width:72ch}
+.check-side{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+@media (min-width:640px){.check-side{align-items:flex-end}}
+
+/* ---------- matriz G10 ---------- */
+.matrix{margin-top:22px;border-top:1px solid var(--filete)}
+.crit{display:grid;grid-template-columns:1fr;gap:7px;padding-block:9px;border-bottom:1px solid rgba(110,96,134,.45)}
+@media (min-width:600px){.crit{grid-template-columns:1fr auto;align-items:center;gap:16px}}
+.crit-name{font-size:.87rem;min-width:0;color:var(--lima-suave)}
+.crit-name small{display:block;font-family:var(--mono);font-size:.65rem;color:var(--filete);letter-spacing:.05em}
+.vals{display:flex;gap:6px;flex-wrap:wrap}
+.vals button{font-family:var(--mono);font-size:.78rem;min-width:34px;padding:4px 8px;border:1px solid var(--filete-fino);background:transparent;color:var(--atenuado);cursor:pointer;font-variant-numeric:tabular-nums}
+.vals button:hover{border-color:var(--lavanda);color:var(--lavanda)}
+.vals button[aria-pressed="true"]{border-color:var(--lima);color:var(--lima)}
+.score{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--filete)}
+.score-num{font-family:var(--mono);font-size:2.4rem;font-weight:300;line-height:1;color:var(--lima);font-variant-numeric:tabular-nums}
+.score small{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--lavanda);display:block;margin-top:6px}
+.score-bar{flex:1 1 180px;min-width:120px;height:3px;background:rgba(129,117,162,.4)}
+.score-bar span{display:block;height:100%;background:var(--lima);transition:width .2s ease}
+.score .mono{color:var(--atenuado);font-size:.78rem}
+
+/* ---------- footer ---------- */
+footer{padding-block:34px;color:var(--atenuado);font-size:.83rem;display:flex;flex-direction:column;gap:14px;max-width:80ch}
+.foot-marks{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mark{font-family:var(--mono);font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--filete-fino);padding:5px 10px;color:var(--lavanda)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-progress"><span id="prog" style="width:12.5%"></span></div>
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="brand">TechGob · ISK</span>
+      <p class="topbar-title" id="tbTitle"></p>
+    </div>
+    <div class="topbar-right">
+      <span class="step-count" id="stepCount">1/8</span>
+      <span class="seg" role="group" aria-label="Idioma / Language">
+        <button type="button" id="langEs" aria-pressed="true">ES</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="codetag">&lt;/techgob&gt;</span>
+    <p class="eyebrow" id="heroEyebrow"></p>
+    <h1 id="heroTitle"></h1>
+    <p class="hero-sub" id="heroSub"></p>
+    <div class="hero-meta" id="heroMeta"></div>
+    <div class="callout">
+      <h3 id="calloutTitle"></h3>
+      <p id="calloutBody"></p>
+    </div>
+  </div>
+
+  <section id="secRecorrido">
+    <div class="sec-head"><p class="eyebrow" id="l_recorrido_eyebrow"></p></div>
+    <h2 id="l_recorrido_title"></h2>
+    <p class="sec-note" id="l_recorrido_note"></p>
+    <div class="rail" id="rail" role="tablist" aria-label="Hitos"></div>
+    <div class="panel">
+      <div class="card">
+        <div class="card-head">
+          <div style="min-width:0">
+            <p class="eyebrow" id="hitoKicker"></p>
+            <h3 id="hitoTitle"></h3>
+          </div>
+          <span class="badge b-soft mono" id="hitoPhase"></span>
+        </div>
+        <div class="card-body">
+          <p id="hitoDesc" style="font-size:.92rem;color:var(--muted)"></p>
+          <div class="trans" id="hitoTrans"></div>
+          <dl class="dl" id="hitoDl"></dl>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><p class="eyebrow" id="l_evidencia"></p></div>
+        <div class="card-body">
+          <div class="stack" id="hitoGuards"></div>
+          <div>
+            <p class="eyebrow" id="l_estado_impl" style="margin-bottom:7px"></p>
+            <div class="row-chips" id="hitoStatus"></div>
+          </div>
+          <div>
+            <p class="eyebrow" id="l_inc_reales" style="margin-bottom:7px"></p>
+            <div class="stack" id="hitoIncs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbtns">
+      <button class="btn" type="button" id="btnPrev"></button>
+      <button class="btn btn-primary" type="button" id="btnNext"></button>
+    </div>
+  </section>
+
+  <section id="secPiezas">
+    <div class="sec-head"><p class="eyebrow" id="l_piezas_eyebrow"></p></div>
+    <h2 id="l_piezas_title"></h2>
+    <p class="sec-note" id="l_piezas_note"></p>
+    <div class="pieces" id="pieces"></div>
+  </section>
+
+  <section id="secVerificador">
+    <div class="sec-head"><p class="eyebrow" id="l_verif_eyebrow"></p></div>
+    <h2 id="l_verif_title"></h2>
+    <p class="sec-note" id="l_verif_note"></p>
+    <div class="checks" id="checksDoc"></div>
+    <p class="sec-note" id="l_conf_note" style="margin-top:22px"></p>
+    <div class="checks" id="checksConf"></div>
+  </section>
+
+  <section id="secRed">
+    <div class="sec-head"><p class="eyebrow" id="l_red_eyebrow"></p></div>
+    <h2 id="l_red_title"></h2>
+    <p class="sec-note" id="l_red_note"></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr id="txHead"></tr></thead>
+        <tbody id="txBody"></tbody>
+      </table>
+    </div>
+    <p class="sec-note" id="l_red_foot"></p>
+  </section>
+
+  <section id="secMatriz">
+    <div class="sec-head"><p class="eyebrow" id="l_mat_eyebrow"></p></div>
+    <h2 id="l_mat_title"></h2>
+    <p class="sec-note" id="l_mat_note"></p>
+    <div class="matrix">
+      <div id="crits"></div>
+      <div class="score">
+        <div><span class="score-num" id="scoreNum">13</span><small id="l_score_label"></small></div>
+        <div class="score-bar"><span id="scoreBar" style="width:0%"></span></div>
+        <div><span class="mono" id="scoreRange"></span></div>
+      </div>
+    </div>
+    <div class="stack" id="matNotes" style="margin-top:14px"></div>
+  </section>
+
+  <section id="secDatos">
+    <div class="sec-head"><p class="eyebrow" id="l_dp_eyebrow"></p></div>
+    <h2 id="l_dp_title"></h2>
+    <p class="sec-note" id="l_dp_note"></p>
+    <div class="pieces" id="dpList"></div>
+  </section>
+
+  <footer>
+    <p id="footText"></p>
+    <p id="footMethod" style="font-size:.78rem"></p>
+    <div class="foot-marks">
+      <span class="mark">TechGob SpA · Chile</span>
+      <span class="mark">Apache-2.0</span>
+      <span class="mark">Stellar Testnet</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+"use strict";
+var L = "es";
+
+var EXPERT = "https://stellar.expert/explorer/testnet/tx/";
+var REPO = "https://github.com/techgob/institutional-signer-kit";
+
+/* ---------- datos: todos tomados del repositorio institutional-signer-kit ---------- */
+
+var HITOS = [
+  {
+    rail:{es:"Génesis",en:"Genesis"}, codes:"T0 · T1",
+    phase:{es:"Preparación",en:"Preparation"},
+    title:{es:"La norma abre el ciclo y fija su clave única",en:"The ordinance opens the cycle and fixes its unique key"},
+    desc:{es:"El Concejo aprueba el reglamento del proceso; la publicación le da vigencia. La clave del ciclo combina código territorial, número de norma y año fiscal, de modo que dos municipalidades no puedan colisionar.",
+          en:"The council approves the process regulation; publication brings it into force. The cycle key combines territorial code, ordinance number and fiscal year, so two municipalities cannot collide."},
+    trans:[
+      {c:"T0",es:"∅ → ordenanza aprobada. Sesión de concejo que aprueba el reglamento.",en:"∅ → ordinance approved. Council session approving the regulation."},
+      {c:"T1",es:"→ vigente. Publicación de la norma.",en:"→ in force. Publication of the ordinance."}
+    ],
+    firma:{es:"Concejo municipal; promulga la alcaldía. T1: secretaría general.",en:"Municipal council; promulgated by the mayor's office. T1: general secretariat."},
+    evidencia:{es:"Ordenanza con su informe de sustento. Constancia del medio de publicación.",en:"Ordinance with its supporting report. Proof of the publication channel."},
+    legal:{es:"Ley N.° 28056, art. 7; Ley N.° 27972, arts. 9 y 44",en:"Law 28056, art. 7; Law 27972, arts. 9 and 44"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G1","G2","G6","G7"],
+    incs:["INC-01","INC-02","INC-03","INC-11","INC-12","INC-15","INC-16"],
+    ingesta:"validada"
+  },
+  {
+    rail:{es:"Convocatoria",en:"Call"}, codes:"T2 · T3",
+    phase:{es:"Preparación",en:"Preparation"},
+    title:{es:"La convocatoria define quién puede participar",en:"The public call defines who may take part"},
+    desc:{es:"La alcaldía convoca como presidencia del consejo de coordinación local y planeamiento cierra el libro de registro de agentes. Solo se ancla la huella de la lista pública de organizaciones: ningún dato personal entra a la cadena.",
+          en:"The mayor's office issues the call as chair of the local coordination council, and the planning office closes the register of participating agents. Only the hash of the public list of organizations is anchored; no personal data reaches the chain."},
+    trans:[
+      {c:"T2",es:"→ convocado. Convocatoria de la alcaldía.",en:"→ called. Call issued by the mayor's office."},
+      {c:"T3",es:"→ acreditación cerrada. Cierre del libro de registro de agentes participantes.",en:"→ accreditation closed. Closing of the participating-agents register."}
+    ],
+    firma:{es:"Alcaldía (T2); oficina de planeamiento y presupuesto (T3).",en:"Mayor's office (T2); planning and budget office (T3)."},
+    evidencia:{es:"Convocatoria pública. Lista pública de organizaciones acreditadas, sin datos personales.",en:"Public call. Public list of accredited organizations, without personal data."},
+    legal:{es:"Instructivo N.° 001-2010-EF/76.01, fase de preparación; D.S. N.° 142-2009-EF; reglamento local",en:"Instructivo 001-2010-EF/76.01, preparation phase; Supreme Decree 142-2009-EF; local regulation"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G1","MIN"],
+    incs:[],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Taller",en:"Workshop"}, codes:"T4",
+    phase:{es:"Concertación",en:"Agreement"},
+    title:{es:"El taller identifica propuestas con una matriz validada",en:"The workshop identifies proposals against a validated matrix"},
+    desc:{es:"El equipo técnico realiza el taller de identificación y priorización. Lo que se ancla es la matriz de criterios validada y la lista de propuestas, no la asistencia de las personas.",
+          en:"The technical team runs the identification and prioritization workshop. What gets anchored is the validated criteria matrix and the list of proposals, not the attendance of individuals."},
+    trans:[{c:"T4",es:"→ taller realizado. Taller de identificación y priorización.",en:"→ workshop held. Identification and prioritization workshop."}],
+    firma:{es:"Equipo técnico.",en:"Technical team."},
+    evidencia:{es:"Matriz de criterios validada y lista de propuestas.",en:"Validated criteria matrix and list of proposals."},
+    legal:{es:"Instructivo N.° 001-2010-EF/76.01, fase de concertación",en:"Instructivo 001-2010-EF/76.01, agreement phase"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G1","G6"],
+    incs:["INC-02","INC-04"],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Priorización",en:"Prioritization"}, codes:"T5",
+    phase:{es:"Concertación",en:"Agreement"},
+    title:{es:"El puntaje se recalcula en la red, no se declara",en:"The score is recomputed on the network, not declared"},
+    desc:{es:"El equipo técnico registra el vector de criterios por proyecto. El contrato recalcula la suma y rechaza valores fuera de la escala. El criterio base de relación con el Plan de Desarrollo Concertado es excluyente: si no se cumple, el proyecto no entra.",
+          en:"The technical team records the criteria vector for each project. The contract recomputes the sum and rejects values outside the scale. The base criterion—alignment with the Concerted Development Plan—is exclusionary: fail it and the project is out."},
+    trans:[{c:"T5",es:"→ priorizado. Evaluación técnica y cuadro de puntajes.",en:"→ prioritized. Technical assessment and score table."}],
+    firma:{es:"Equipo técnico.",en:"Technical team."},
+    evidencia:{es:"Vector de criterios y puntaje por proyecto.",en:"Criteria vector and score per project."},
+    legal:{es:"Reglamento local, matriz de priorización (art. 25; Anexo 2)",en:"Local regulation, prioritization matrix (art. 25; Annex 2)"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G10"],
+    incs:["INC-09","INC-10","INC-13"],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Acta y comité",en:"Minutes & committee"}, codes:"T6 · T7",
+    phase:{es:"Formalización",en:"Formalization"},
+    title:{es:"El acuerdo se formaliza y el comité queda instalado",en:"The agreement is formalized and the committee is installed"},
+    desc:{es:"El consejo de coordinación local y los agentes suscriben el Acta de Acuerdos y Compromisos; los agentes eligen al comité de vigilancia y se registran sus claves de rol. Esas claves no pueden reutilizar las del consejo.",
+          en:"The local coordination council and the agents sign the Minutes of Agreements and Commitments; the agents elect the oversight committee and its role keys are registered. Those keys cannot reuse the council's."},
+    trans:[
+      {c:"T6",es:"→ acta formalizada. Suscripción del Acta de Acuerdos y Compromisos.",en:"→ minutes formalized. Signing of the Minutes of Agreements and Commitments."},
+      {c:"T7",es:"→ comité instalado. Elección del comité de vigilancia por los agentes.",en:"→ committee installed. Election of the oversight committee by the agents."}
+    ],
+    firma:{es:"Consejo de coordinación local y agentes participantes (T6); agentes participantes (T7).",en:"Local coordination council and participating agents (T6); participating agents (T7)."},
+    evidencia:{es:"Acta, versión pública. Acta de elección; claves de rol registradas.",en:"Minutes, public version. Election record; registered role keys."},
+    legal:{es:"Ley N.° 28056, art. 7; Instructivo, cap. III; reglamento local",en:"Law 28056, art. 7; Instructivo, ch. III; local regulation"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G8","G9"],
+    incs:["INC-06","INC-07","INC-10"],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Remisión",en:"Submission"}, codes:"T8",
+    phase:{es:"Formalización",en:"Formalization"},
+    title:{es:"La remisión al MEF queda unida al mismo expediente",en:"Submission to the finance ministry stays bound to the same file"},
+    desc:{es:"Planeamiento registra el proceso en el aplicativo del Ministerio de Economía y Finanzas y remite el informe final. Cuando dos fuentes del mismo documento declaran fechas distintas, ninguna se borra: la contradicción se conserva como evidencia y genera una alerta.",
+          en:"The planning office registers the process in the finance ministry's application and submits the final report. When two sources in the same document declare different dates, neither is erased: the contradiction is kept as evidence and raises an alert."},
+    trans:[{c:"T8",es:"→ remitido al MEF. Remisión del informe final y registro en el aplicativo.",en:"→ submitted to MEF. Submission of the final report and registration in the application."}],
+    firma:{es:"Oficina de planeamiento y presupuesto.",en:"Planning and budget office."},
+    evidencia:{es:"Constancia del aplicativo y oficio de remisión.",en:"Application receipt and submission letter."},
+    legal:{es:"Instructivo N.° 001-2010-EF/76.01, registro del proceso",en:"Instructivo 001-2010-EF/76.01, process registration"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G1","G6"],
+    incs:["INC-05"],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Presupuesto",en:"Budget"}, codes:"T9 · T10",
+    phase:{es:"Nivel proyecto",en:"Project level"},
+    title:{es:"El código único de inversiones conecta la decisión con la ejecución",en:"The investment code connects the decision to execution"},
+    desc:{es:"El concejo incorpora el proyecto al presupuesto institucional de apertura y el comité de vigilancia informa sobre su avance. Sin código único de inversiones el proyecto no existe para el sistema de programación multianual, así que la transición se rechaza.",
+          en:"The council incorporates the project into the opening institutional budget and the oversight committee reports on progress. Without an investment code the project does not exist for the multiannual programming system, so the transition is rejected."},
+    trans:[
+      {c:"T9",es:"→ incorporado al presupuesto. Aprobación del presupuesto institucional de apertura.",en:"→ incorporated into the budget. Approval of the opening institutional budget."},
+      {c:"T10",es:"→ vigilado. Informe del comité de vigilancia.",en:"→ monitored. Oversight committee report."}
+    ],
+    firma:{es:"Concejo municipal (T9); comité de vigilancia (T10).",en:"Municipal council (T9); oversight committee (T10)."},
+    evidencia:{es:"Acuerdo o presupuesto aprobado, con el código único de inversiones. Informe del comité.",en:"Agreement or approved budget, with the investment code. Committee report."},
+    legal:{es:"Ley N.° 28056, art. 7; D. Leg. N.° 1440; Instructivo, cap. III",en:"Law 28056, art. 7; Legislative Decree 1440; Instructivo, ch. III"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G11"],
+    incs:["INC-07","INC-08"],
+    ingesta:"pendiente"
+  },
+  {
+    rail:{es:"Cierre",en:"Closure"}, codes:"T11 · T12 · T13",
+    phase:{es:"Nivel proyecto",en:"Project level"},
+    title:{es:"La sustitución es la transición de mayor riesgo, y la que más condiciones exige",en:"Substitution is the riskiest transition, and the one with the most conditions"},
+    desc:{es:"Sustituir un proyecto altera lo que los vecinos acordaron, así que siete condiciones deben cumplirse a la vez. La rendición de cuentas ocurre dentro del proceso del año siguiente, de modo que un ciclo no puede cerrarse sin que el siguiente esté abierto.",
+          en:"Substituting a project changes what residents agreed on, so seven conditions must hold at once. Accountability reporting happens inside the following year's process, so a cycle cannot close unless the next one is open."},
+    trans:[
+      {c:"T11",es:"→ sustituido. Imposibilidad de ejecutar un proyecto priorizado.",en:"→ substituted. Impossibility of executing a prioritized project."},
+      {c:"T12",es:"→ rendido cuentas. Rendición en el ciclo siguiente.",en:"→ accounted for. Reporting in the following cycle."},
+      {c:"T13",es:"ciclo → cerrado. Culminación de los proyectos del ciclo.",en:"cycle → closed. Completion of the cycle's projects."}
+    ],
+    firma:{es:"Alcaldía con aviso al consejo y al comité (T11); alcaldía y comité (T12); comité de vigilancia (T13).",en:"Mayor's office with notice to council and committee (T11); mayor's office and committee (T12); oversight committee (T13)."},
+    evidencia:{es:"Resolución de alcaldía, nota modificatoria presupuestal y constancia de aviso. Informe de rendición. Balance del ciclo.",en:"Mayoral resolution, budget amendment note and proof of notice. Accountability report. Cycle balance."},
+    legal:{es:"Instructivo, regla de sustitución; Ley N.° 28056, art. 7; reglamento local arts. 31 y 33",en:"Instructivo, substitution rule; Law 28056, art. 7; local regulation arts. 31 and 33"},
+    ciclo:"2210 : 001-2026-MPT : 2027",
+    guards:["G10","G12","R"],
+    incs:["INC-06","INC-09","INC-14"],
+    ingesta:"pendiente"
+  }
+];
+
+var GUARDS = {
+  G1:{es:["G1 · Ciclo abierto","Impide cualquier transición sin un ciclo abierto previamente. Sin norma que convoque el proceso, ningún acto posterior tiene sustento."],
+      en:["G1 · Open cycle","Blocks any transition without a previously opened cycle. With no ordinance convening the process, no later act has grounding."]},
+  G2:{es:["G2 · Clave única","Impide abrir dos veces el mismo ciclo. La clave combina código territorial, número de norma y año fiscal: dos municipalidades emiten normas con el mismo número el mismo año."],
+      en:["G2 · Unique key","Prevents opening the same cycle twice. The key combines territorial code, ordinance number and fiscal year: two municipalities issue ordinances with the same number in the same year."]},
+  G6:{es:["G6 · Doble sello de tiempo","Impide confiar en la fecha declarada. El contrato compara la fecha del acto con la marca de tiempo del ledger y marca el registro como retroactivo cuando corresponde."],
+      en:["G6 · Dual timestamp","Stops the declared date from being trusted. The contract compares the act's date with the ledger timestamp and flags the record as retroactive where applicable."]},
+  G7:{es:["G7 · Actos previos a la vigencia","Emite alerta y acepta la transición: el registro documenta hechos, no dictamina su legalidad. Rechazar rompería la completitud de la serie."],
+      en:["G7 · Acts before entry into force","Raises an alert and accepts the transition: the registry documents facts, it does not rule on their legality. Rejecting would break the completeness of the series."]},
+  G8:{es:["G8 · Claves incompatibles","Impide que una misma clave represente al comité de vigilancia y al consejo de coordinación local. El cargo en el comité es incompatible con la representación ante el consejo."],
+      en:["G8 · Incompatible keys","Prevents one key from representing both the oversight committee and the local coordination council. Committee office is incompatible with representing the council."]},
+  G9:{es:["G9 · Quórum del comité","Impide firmar sin el quórum del comité. Cuatro miembros, umbral de tres mientras no se conozca su reglamento interno."],
+      en:["G9 · Committee quorum","Prevents signing without committee quorum. Four members, threshold of three while its internal rules remain unknown."]},
+  G10:{es:["G10 · Puntaje verificable","Impide puntajes inválidos o sustituciones fuera de la escala. El contrato recalcula la suma del vector de criterios y exige que la sustitución elija al alternativo de mayor rango disponible."],
+       en:["G10 · Verifiable score","Blocks invalid scores or substitutions outside the scale. The contract recomputes the criteria-vector sum and requires substitution to pick the highest-ranked available alternate."]},
+  G11:{es:["G11 · Código único obligatorio","Impide incorporar al presupuesto sin código único de inversiones. Sin ese código la inversión no existe para el sistema de programación multianual."],
+       en:["G11 · Investment code required","Blocks budget incorporation without an investment code. Without it the investment does not exist for the multiannual programming system."]},
+  G12:{es:["G12 · Rendición cruzada","Impide cerrar un ciclo sin que el siguiente esté abierto. La rendición de cuentas ocurre dentro del proceso participativo del año siguiente."],
+       en:["G12 · Cross-cycle accountability","Prevents closing a cycle unless the next one is open. Accountability reporting happens inside the following year's participatory process."]},
+  MIN:{es:["Minimización de datos","La prueba de integridad viaja en la cadena; identidades y documentos completos permanecen bajo custodia municipal. El esquema rechaza campos cuyo nombre sugiera datos personales."],
+       en:["Data minimization","The integrity proof travels on chain; identities and full documents stay in municipal custody. The schema rejects fields whose names suggest personal data."]},
+  R:{es:["R1–R7 · Reglas de la sustitución","Siete condiciones simultáneas: proyecto saliente incorporado, acto motivador anclado, entrante en la lista alternativa respetando la escala, firma de la alcaldía, aviso al consejo y al comité, nota modificatoria presupuestal, e índice de serie consecutivo sin saltos."],
+     en:["R1–R7 · Substitution rules","Seven simultaneous conditions: outgoing project incorporated, motivating act anchored, incoming project on the alternate list respecting the scale, mayoral signature, notice to council and committee, budget amendment note, and a consecutive series index with no gaps."]}
+};
+
+var INCS = {
+  "INC-01":{sev:"bloqueante",loc:"archivo",
+    es:"La huella se calculó sobre una copia subida por el usuario, no sobre la descarga directa del portal.",
+    en:"The hash was computed over a user-uploaded copy, not over the direct download from the portal."},
+  "INC-02":{sev:"alerta",loc:"Ordenanza art. 6; LOM art. 44",
+    es:"Sin fecha de publicación legal acreditada; la fecha del portal (4 mar 2026) es posterior al taller del 25 feb 2026.",
+    en:"No accredited legal publication date; the portal date (4 Mar 2026) is later than the 25 Feb 2026 workshop."},
+  "INC-03":{sev:"alerta",loc:"Ordenanza art. 6 vs. Reglamento art. 34",
+    es:"Vigencia distinta: la ordenanza rige al día siguiente de su publicación; el reglamento, desde su publicación.",
+    en:"Divergent entry into force: the ordinance applies the day after publication; the regulation, from publication."},
+  "INC-04":{sev:"alerta",loc:"Anexo 1 vs. convocatoria",
+    es:"Taller único en la III semana de febrero según el Anexo 1, pero el 25 de febrero según la convocatoria, fecha que cae en la IV semana.",
+    en:"Single workshop in the third week of February per Annex 1, but 25 February per the call, which falls in the fourth week."},
+  "INC-05":{sev:"alerta",loc:"Anexo 1 vs. convocatoria",
+    es:"Remisión al MEF en la III semana de febrero (Anexo 1) y el 31 de marzo de 2026 (convocatoria).",
+    en:"Submission to the finance ministry in the third week of February (Annex 1) and on 31 March 2026 (the call)."},
+  "INC-06":{sev:"alerta",loc:"Anexo 1; Reglamento arts. 26 y 31",
+    es:"El cronograma no incluye taller de formalización, firma del Acta, elección del Comité ni rendición de cuentas, que exigen los arts. 26 y 31.",
+    en:"The schedule omits the formalization workshop, signing of the Minutes, committee election and accountability reporting required by arts. 26 and 31."},
+  "INC-07":{sev:"alerta",loc:"Toda la norma",
+    es:"La norma no fija techo presupuestal para el Presupuesto Participativo.",
+    en:"The ordinance sets no budget ceiling for the participatory budget."},
+  "INC-08":{sev:"alerta",loc:"Anexo Información mínima por proyecto",
+    es:"La ficha de información mínima por proyecto no tiene campo para el código único de inversiones.",
+    en:"The minimum-information project form has no field for the investment code."},
+  "INC-09":{sev:"alerta",loc:"Reglamento art. 25; Anexo 2",
+    es:"La matriz no define regla de desempate.",
+    en:"The matrix defines no tie-break rule."},
+  "INC-10":{sev:"alerta",loc:"Anexo 2; cuadro de proyectos priorizados",
+    es:"Las plantillas incluyen columna de documento de identidad; exigir versión pública antes de anclar su huella.",
+    en:"The templates include an identity-document column; a public version must be required before anchoring its hash."},
+  "INC-11":{sev:"informativa",loc:"Reglamento art. 13; solicitud de inscripción; ficha de proyecto",
+    es:"Referencias a años 2026 y 2025 arrastradas de plantillas anteriores.",
+    en:"References to 2026 and 2025 carried over from earlier templates."},
+  "INC-12":{sev:"informativa",loc:"Reglamento art. 6",
+    es:"Marco legal cita la Ley 28411 y la Ley 27293, reemplazadas por los D. Leg. 1440 y 1252.",
+    en:"The legal framework cites Laws 28411 and 27293, replaced by Legislative Decrees 1440 and 1252."},
+  "INC-13":{sev:"informativa",loc:"Matriz de criterios; Anexo 2",
+    es:"El criterio sostenibilidad aparece en la matriz sin puntaje y no figura en el Anexo 2.",
+    en:"The sustainability criterion appears in the matrix without a score and is absent from Annex 2."},
+  "INC-14":{sev:"informativa",loc:"Reglamento art. 33",
+    es:"Sin cláusula local de sustitución de proyectos; se aplica la regla residual del art. 33.",
+    en:"No local project-substitution clause; the residual rule of art. 33 applies."},
+  "INC-15":{sev:"informativa",loc:"Reglamento art. 8",
+    es:"Seis distritos descritos como parte del Distrito de Tocache; el ámbito es provincial.",
+    en:"Six districts described as part of the District of Tocache; the scope is provincial."},
+  "INC-16":{sev:"informativa",loc:"PDF pp. 1 y 10-18",
+    es:"Las páginas de anexos (10 a 18) no llevan sellos ni vistos; la página 1 tiene dimensiones distintas del resto.",
+    en:"Annex pages (10 to 18) carry no seals or endorsements; page 1 has different dimensions from the rest."}
+};
+
+var PIEZAS = [
+  {n:1,state:"ok",
+   es:["Firma institucional por rol y ciclo","Claves asignadas a cargos y períodos, no a personas, con rotación documentada. La dirección del rol no cambia; la passkey que la controla se rota al cerrar cada ciclo.","Probada en testnet · 9 transacciones"],
+   en:["Role-and-cycle institutional signing","Keys assigned to offices and terms, not to people, with documented rotation. The role address does not change; the passkey controlling it rotates at the close of each cycle.","Proven on testnet · 9 transactions"]},
+  {n:2,state:"pend",
+   es:["Relayer con política restringida","El operador que paga solo debe poder transmitir invocaciones de contratos y funciones autorizadas, con topes de gasto y límite de frecuencia.","No implementado · lo financia esta iteración"],
+   en:["Policy-restricted relayer","The paying operator should only be able to submit calls to whitelisted contracts and functions, with spend caps and rate limits.","Not implemented · funded by this iteration"]},
+  {n:3,state:"ok",
+   es:["Trazabilidad entre comisión y autorización","Cada comisión pagada queda enlazada a la entrada firmada que la originó. El verificador de conformidad lo comprueba sin claves, sobre transacciones ya confirmadas.","Probada · comprobaciones C3, C4 y C5"],
+   en:["Fee-to-authorization traceability","Every fee paid is linked to the signed entry behind it. The conformance verifier checks this without keys, over already-confirmed transactions.","Proven · checks C3, C4 and C5"]},
+  {n:4,state:"ok",
+   es:["Portabilidad y no censura","La entrada firmada se publica como XDR. Si el operador desaparece o se niega a transmitirla, cualquier tercero puede hacerlo mientras no expire. El operador opera el registro, no lo controla.","Probada · un tercero transmitió la entrada B"],
+   en:["Portability and censorship resistance","The signed entry is published as XDR. If the operator disappears or refuses to submit it, any third party can, until it expires. The operator runs the registry; it does not control it.","Proven · a third party submitted entry B"]}
+];
+
+var TXS = [
+  {run:"HU-01", step:"paso 0", es:"El operador crea la cuenta del rol con saldo 0 y patrocina su reserva", en:"The operator creates the role account with zero balance and sponsors its reserve",
+   hash:"9dd4146fe5a3cee9985a87b5618159965087a55aae53ebbfaa9b2ee3918c5e5f", ledger:null, fee:null, ok:true, date:"2026-10-04"},
+  {run:"HU-01", step:"CA-01-1", es:"El rol firma la entrada A; el operador la transmite y paga", en:"The role signs entry A; the operator submits it and pays",
+   hash:"8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f", ledger:5026465, fee:13677, ok:true, date:"2026-10-04", conf:"conforme"},
+  {run:"HU-01", step:"CA-01-2", es:"El rol firma la entrada B para la misma invocación y la publica como XDR; un tercero la transmite y paga", en:"The role signs entry B for the same invocation and publishes it as XDR; a third party submits it and pays",
+   hash:"fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd", ledger:5026466, fee:13677, ok:true, date:"2026-10-04", conf:"conforme"},
+  {run:"HU-01", step:"CA-01-3", es:"El tercero reenvía la entrada A ya usada — nonce consumido", en:"The third party resubmits the already-used entry A — nonce consumed",
+   hash:"ac8f406c08dac361b07efffb92deae0cf9b85e2044ffa50f953137eb7a7f0542", ledger:5026467, fee:10097, ok:false, date:"2026-10-04", err:"Error(Auth, ExistingValue)"},
+  {run:"Traspaso", step:"T-1", es:"El operador entrante pasa a patrocinar la reserva de la cuenta del rol; firman los dos", en:"The incoming operator takes over sponsoring the role account's reserve; both sign",
+   hash:"56d283596d0dfc3d158b7de4c8eb034b1dba30c06659789ac800826434fcf9c8", ledger:5040390, fee:300, ok:true, date:"2026-10-05", conf:"no conforme"},
+  {run:"Traspaso", step:"T-2", es:"El rol firma y el operador entrante transmite y paga", en:"The role signs and the incoming operator submits and pays",
+   hash:"60d81df7b9b131b1fd919eebf5b79368d4486f39a9ed3fd0bcbeca4258333c97", ledger:5040391, fee:13673, ok:true, date:"2026-10-05", conf:"conforme"},
+  {run:"Passkey", step:"P-1", es:"La passkey del ciclo 1 autoriza un registro", en:"The cycle-1 passkey authorizes a registration",
+   hash:"75ef39a5e718d1e689952af6e096f2e510baa25f359c5b96c9de275c5f2b5f64", ledger:5040414, fee:15061, ok:true, date:"2026-10-05", conf:"conforme"},
+  {run:"Passkey", step:"P-2", es:"La passkey del ciclo 1 autoriza la rotación a la del ciclo 2", en:"The cycle-1 passkey authorizes rotation to the cycle-2 key",
+   hash:"1afc57e34014fc2bd49549d31604e5900e246253b382fbe6095afb7cd6ac8756", ledger:5040415, fee:17316, ok:true, date:"2026-10-05"},
+  {run:"Passkey", step:"P-3", es:"La passkey del ciclo 1 intenta otro registro — rechazada en __check_auth", en:"The cycle-1 passkey attempts another registration — rejected in __check_auth",
+   hash:"ab6e2d83df750351a050c2eb5f206474303b35c13b114c1a2d464b3fdc79e8a6", ledger:5040416, fee:11510, ok:false, date:"2026-10-05", err:"failed secp256r1 verification", conf:"no conforme"},
+  {run:"Passkey", step:"P-4", es:"La passkey del ciclo 2 autoriza un registro con la misma dirección de rol", en:"The cycle-2 passkey authorizes a registration with the same role address",
+   hash:"39dcbe8820165d0f0048c32db3da41e61adb03dd50f8bb46901a07eaf95c7fb2", ledger:5040417, fee:15061, ok:true, date:"2026-10-05", conf:"conforme"}
+];
+
+var CHECKS_DOC = [
+  {id:"V1", ok:false, sev:"bloqueante",
+   es:["huella_pdf_coincide","SHA-256 del PDF contra archivo.sha256 de la carga admitida. La carga declara 4 283 322 bytes; el PDF recibido el 3 de octubre de 2026 da 4 290 931 bytes. Falta la huella de la descarga directa del portal, así que el validador bloquea el anclaje.","No coincide · INC-01"],
+   en:["huella_pdf_coincide","SHA-256 of the PDF against archivo.sha256 in the admitted payload. The payload declares 4,283,322 bytes; the PDF received on 3 October 2026 gives 4,290,931 bytes. The hash of the direct portal download is missing, so the validator blocks anchoring.","Mismatch · INC-01"],
+   want:"ec76ae49026410ffe48478263c9b1396a29f227f973c762c5e3484243359dc24",
+   got:"2bc20e2a…7c97"},
+  {id:"V2", ok:true, sev:"ok",
+   es:["compromiso_canonico_coincide","SHA-256 de la carga en forma canónica contra el compromiso esperado. La forma canónica se importa del propio validador, así que validador y verificador no pueden divergir.","Coincide"],
+   en:["compromiso_canonico_coincide","SHA-256 of the payload in canonical form against the expected commitment. The canonical form is imported from the validator itself, so validator and verifier cannot diverge.","Match"],
+   want:"ef397780…b455", got:"ef397780…b455"}
+];
+
+var CHECKS_CONF = [
+  {id:"C1", es:["La transacción se confirmó"], en:["The transaction was confirmed"]},
+  {id:"C2", es:["La única firma es la de la cuenta que envió y pagó"], en:["The only signature is that of the account that submitted and paid"]},
+  {id:"C3", es:["El rol no es quien envía ni paga"], en:["The role is neither the submitter nor the payer"]},
+  {id:"C4", es:["El rol autorizó dentro de la llamada, con su firma en la entrada de autorización"], en:["The role authorized inside the call, with its signature in the authorization entry"]},
+  {id:"C5", es:["Esa autorización vence en 720 ledgers o menos, alrededor de una hora"], en:["That authorization expires within 720 ledgers or fewer, about an hour"]},
+  {id:"C6", es:["El rol no tiene XLM propio — estado actual, no el del momento de la transacción"], en:["The role holds no XLM of its own — current state, not the state at transaction time"]}
+];
+
+var CRITERIOS = [
+  {c:"extrema_pobreza", v:[1,5], es:"Extrema pobreza", en:"Extreme poverty"},
+  {c:"mas_pobres_sectores_riesgo", v:[1,5], es:"Sectores más pobres y en riesgo", en:"Poorest and at-risk sectors"},
+  {c:"caracter_productivo", v:[1,5], es:"Carácter productivo", en:"Productive character"},
+  {c:"proyecto_continuidad", v:[1,5], es:"Proyecto de continuidad", en:"Continuing project"},
+  {c:"necesidades_basicas_insatisfechas", v:[1,3,5,8], es:"Necesidades básicas insatisfechas", en:"Unmet basic needs"},
+  {c:"contrapartida", v:[1,5], es:"Contrapartida", en:"Counterpart funding"},
+  {c:"cobertura", v:[1,3,5,8], es:"Cobertura", en:"Coverage"},
+  {c:"caracter_inclusivo", v:[1,5], es:"Carácter inclusivo", en:"Inclusive character"},
+  {c:"caracter_intersectorial", v:[1,5], es:"Carácter intersectorial", en:"Cross-sector character"},
+  {c:"empleo_local", v:[1,5], es:"Empleo local", en:"Local employment"},
+  {c:"efectos_actividades_economicas", v:[1,5], es:"Efectos en actividades económicas", en:"Effects on economic activity"},
+  {c:"ingresos_propios", v:[1,5], es:"Ingresos propios", en:"Own revenue"},
+  {c:"nivel_estudio", v:[1,5], es:"Nivel de estudio", en:"Study level"}
+];
+
+var DP = [
+  {es:["Solo documentos públicos por mandato legal","Se ancla la huella de documentos cuya publicación la norma ya exige. Nunca datos personales."],
+   en:["Only documents public by legal mandate","Hashes are anchored for documents whose publication the law already requires. Never personal data."]},
+  {es:["Claves de rol, no de persona","La clave pertenece al cargo y al período. La dirección del rol es su identidad en el registro y no cambia; la passkey que la controla se rota al cerrar el ciclo."],
+   en:["Role keys, not personal keys","The key belongs to the office and the term. The role address is its identity in the registry and does not change; the passkey controlling it rotates at cycle close."]},
+  {es:["El esquema lo impone estructuralmente","Los campos desconocidos se rechazan, y los nombres de campo que sugieren datos personales fallan la validación. Una de las dieciséis inconsistencias detectadas es exactamente eso: plantillas con columna de documento de identidad."],
+   en:["The schema enforces it structurally","Unknown fields are rejected, and field names suggesting personal data fail validation. One of the sixteen detected inconsistencies is exactly that: templates with an identity-document column."]},
+  {es:["Los documentos siguen bajo custodia","El archivo no se publica en la cadena. Viaja la prueba de integridad; el expediente completo permanece en la entidad."],
+   en:["Documents stay in custody","The file is not published on chain. The integrity proof travels; the full record stays with the institution."]}
+];
+
+var T = {
+  es:{
+    heroEyebrow:"Institutional Signer Kit · Registro del presupuesto participativo",
+    heroTitle:"Catorce transiciones legales, ocho hitos, y una sola pregunta: ¿se puede comprobar?",
+    heroSub:"Esta página recorre el ciclo del presupuesto participativo tal como lo especifica la máquina de estados del componente, y muestra junto a cada hito lo que hoy está probado en la red de pruebas de Stellar, lo que está especificado pero no desplegado, y las inconsistencias que el validador encontró en el documento real.",
+    calloutTitle:"Qué es verificable en esta página y qué no",
+    calloutBody:"Cada dato viene del repositorio del componente: la especificación, el esquema de ingesta, la validación de la ordenanza real de la Municipalidad Provincial de Tocache y los resúmenes de las corridas en testnet. No hay valores de ejemplo. El contrato de génesis con sus guardas aún no está desplegado: donde una guarda todavía no se ejecuta en red, la página lo dice. La red de pruebas de Stellar se reinicia cada trimestre; si un enlace al explorador deja de resolver, el script de reproducción regenera la transacción en minutos.",
+    chips:["Ciclo 2210 : 001-2026-MPT : 2027","Ordenanza Municipal N.° 001-2026-MPT","Apache-2.0","Soroban · testnet"],
+    recorridoEyebrow:"El recorrido",
+    recorridoTitle:"Ocho hitos sobre catorce transiciones",
+    recorridoNote:"La especificación define catorce transiciones en dos niveles: el ciclo, único por municipalidad y año fiscal, y el proyecto, múltiple dentro del ciclo. Los ocho hitos de abajo las agrupan sin omitir ninguna. Por cada hito: qué evento lo dispara, quién lo firma, qué documento lo acredita y qué regla debe cumplirse para que sea válido.",
+    evidencia:"Guardas, estado y hallazgos",
+    estadoImpl:"Estado de implementación",
+    incReales:"Inconsistencias detectadas en el documento real",
+    sinIncs:"El validador no registró inconsistencias atribuibles a estas transiciones.",
+    dlTrans:"Transiciones",
+    dlFirma:"Quién firma",
+    dlEvidencia:"Evidencia exigida",
+    dlLegal:"Base legal",
+    dlCiclo:"Clave del ciclo",
+    prev:"← Hito anterior",
+    next:"Hito siguiente →",
+    stIngestaOk:"Ingesta validada sobre documento real",
+    stIngestaPend:"Ingesta no probada todavía",
+    stFirma:"Firma por rol probada en testnet",
+    stGuardas:"Guardas especificadas · contrato no desplegado",
+    piezasEyebrow:"El componente",
+    piezasTitle:"Cuatro piezas, y el estado real de cada una",
+    piezasNote:"Soroban firma las entradas de autorización de forma independiente del sobre de la transacción, de modo que quien autoriza una invocación y quien paga su comisión pueden ser cuentas distintas. Sobre esa propiedad se construyen cuatro piezas. Dos están probadas, una está probada por la vía del verificador, y una no está implementada.",
+    verifEyebrow:"El verificador",
+    verifTitle:"Lo que comprueba sin consultar la cadena",
+    verifNote:"Dos comprobaciones sobre el documento y su carga admitida. Este es el resultado real con la ordenanza de Tocache: una pasa y una falla. La que falla es la razón por la que el validador deja el expediente en estado observado y bloquea el anclaje, y es el comportamiento correcto.",
+    confNote:"Seis comprobaciones más revisan transacciones ya confirmadas contra las propiedades que el componente promete. No usan claves, así que cualquier operador puede correrlas sobre sus propias transacciones. El 5 de octubre de 2026 dieron conforme cinco transacciones y no conforme dos, estas últimas como corresponde.",
+    estadoValidacion:"Estado del expediente: observado · 1 bloqueante, 9 alertas, 6 informativas",
+    redEyebrow:"La red",
+    redTitle:"Diez transacciones en testnet, con su ledger y su comisión",
+    redNote:"Tres corridas: la separación entre firmante y pagador, el traspaso de operador, y la rotación de passkey por ciclo. El rol terminó las tres con saldo cero en XLM. Las comisiones las pagó siempre otra cuenta.",
+    redFoot:"Las dos transacciones rechazadas no son fallas de la corrida: son la demostración de que la red rechaza lo que debe rechazar. Un nonce consumido no se puede reutilizar, y una passkey rotada no vuelve a autorizar.",
+    thRun:"Corrida",
+    thStep:"Paso",
+    thWhat:"Qué demuestra",
+    thLedger:"Ledger",
+    thFee:"Comisión",
+    thResult:"Resultado",
+    thTx:"Transacción",
+    sinDato:"SIN DATO",
+    matEyebrow:"La guarda G10",
+    matTitle:"Trece criterios, de 13 a 71 puntos",
+    matNote:"La matriz de priorización del reglamento de Tocache tiene trece criterios con valores acotados. El contrato recalcula la suma y rechaza cualquier valor fuera de la escala, así que el puntaje no se declara: se comprueba. Mueve los valores y observa el total.",
+    scoreLabel:"Puntaje recalculado",
+    puntosDe:"Escala válida: 13 a 71 puntos",
+    dpEyebrow:"Protección de datos",
+    dpTitle:"Por diseño, no por política interna",
+    dpNote:"La Ley N.° 29733 y su reglamento imponen una restricción que el componente resuelve en la estructura del dato, no en un manual de uso.",
+    footText:"Registro verificable del presupuesto participativo. Componente abierto bajo Apache-2.0, desarrollado por TechGob con validación en terreno en la Municipalidad Provincial de Tocache (San Martín) y la Municipalidad Distrital de La Punta (Callao), con acceso habilitado por la Red Nacional de Laboratorios de Innovación Digital de la Secretaría de Gobierno y Transformación Digital del Perú. Las contrapartes institucionales aportan el caso de uso y la validación; no son responsables del código.",
+    footMethod:"Todo el contenido de esta página proviene del repositorio del componente: la máquina de estados, el esquema de ingesta, la carga admitida de la ordenanza, los resúmenes de las corridas en testnet y los resultados del verificador. Las fuentes normativas fueron leídas y verificadas en sus textos oficiales.",
+    verRepo:"Ver el repositorio",
+    conforme:"conforme",
+    noConforme:"no conforme",
+    exito:"éxito",
+    rechazada:"rechazada"
+  },
+  en:{
+    heroEyebrow:"Institutional Signer Kit · Participatory budget registry",
+    heroTitle:"Fourteen legal transitions, eight milestones, and one question: can it be checked?",
+    heroSub:"This page walks the participatory budget cycle exactly as the component's state machine specifies it, and shows at each milestone what is proven today on Stellar's test network, what is specified but not yet deployed, and the inconsistencies the validator found in the real document.",
+    calloutTitle:"What on this page is verifiable, and what is not",
+    calloutBody:"Every figure comes from the component's repository: the specification, the ingestion schema, the validation of the real ordinance from the Provincial Municipality of Tocache, and the summaries of the testnet runs. There are no example values. The genesis contract and its guards are not deployed yet: wherever a guard is not yet enforced on the network, the page says so. Stellar's test network resets quarterly; if an explorer link stops resolving, the reproduction script regenerates the transaction in minutes.",
+    chips:["Cycle 2210 : 001-2026-MPT : 2027","Municipal Ordinance 001-2026-MPT","Apache-2.0","Soroban · testnet"],
+    recorridoEyebrow:"The walkthrough",
+    recorridoTitle:"Eight milestones over fourteen transitions",
+    recorridoNote:"The specification defines fourteen transitions at two levels: the cycle, unique per municipality and fiscal year, and the project, multiple within a cycle. The eight milestones below group them without dropping any. For each one: what event triggers it, who signs it, which document evidences it, and which rule must hold for it to be valid.",
+    evidencia:"Guards, status and findings",
+    estadoImpl:"Implementation status",
+    incReales:"Inconsistencies found in the real document",
+    sinIncs:"The validator recorded no inconsistencies attributable to these transitions.",
+    dlTrans:"Transitions",
+    dlFirma:"Who signs",
+    dlEvidencia:"Required evidence",
+    dlLegal:"Legal basis",
+    dlCiclo:"Cycle key",
+    prev:"← Previous milestone",
+    next:"Next milestone →",
+    stIngestaOk:"Ingestion validated against the real document",
+    stIngestaPend:"Ingestion not yet exercised",
+    stFirma:"Role signing proven on testnet",
+    stGuardas:"Guards specified · contract not deployed",
+    piezasEyebrow:"The component",
+    piezasTitle:"Four pieces, and the real status of each",
+    piezasNote:"Soroban signs authorization entries independently of the transaction envelope, so the account that authorizes a call and the account that pays its fee can be different. Four pieces are built on that property. Two are proven, one is proven through the verifier, and one is not implemented.",
+    verifEyebrow:"The verifier",
+    verifTitle:"What it checks without querying the chain",
+    verifNote:"Two checks over the document and its admitted payload. This is the real result with the Tocache ordinance: one passes and one fails. The failing one is why the validator leaves the record in observed state and blocks anchoring, and that is the correct behavior.",
+    confNote:"Six further checks review already-confirmed transactions against the properties the component promises. They use no keys, so any operator can run them over their own transactions. On 5 October 2026 five transactions came back conformant and two non-conformant, the latter as expected.",
+    estadoValidacion:"Record status: observed · 1 blocking, 9 alerts, 6 informational",
+    redEyebrow:"The network",
+    redTitle:"Ten testnet transactions, with ledger and fee",
+    redNote:"Three runs: the separation of signer from payer, the operator handover, and per-cycle passkey rotation. The role ended all three with a zero XLM balance. Fees were always paid by another account.",
+    redFoot:"The two rejected transactions are not run failures: they are the proof that the network rejects what it should. A consumed nonce cannot be reused, and a rotated passkey never authorizes again.",
+    thRun:"Run",
+    thStep:"Step",
+    thWhat:"What it proves",
+    thLedger:"Ledger",
+    thFee:"Fee",
+    thResult:"Result",
+    thTx:"Transaction",
+    sinDato:"NO DATA",
+    matEyebrow:"Guard G10",
+    matTitle:"Thirteen criteria, from 13 to 71 points",
+    matNote:"The prioritization matrix in Tocache's regulation has thirteen criteria with bounded values. The contract recomputes the sum and rejects any value outside the scale, so the score is not declared: it is checked. Move the values and watch the total.",
+    scoreLabel:"Recomputed score",
+    puntosDe:"Valid scale: 13 to 71 points",
+    dpEyebrow:"Data protection",
+    dpTitle:"By design, not by internal policy",
+    dpNote:"Peru's Law 29733 and its regulation impose a constraint the component resolves in the structure of the data rather than in a usage manual.",
+    footText:"Verifiable registry of the participatory budget. Open component under Apache-2.0, built by TechGob with field validation at the Provincial Municipality of Tocache (San Martín) and the District Municipality of La Punta (Callao), with access enabled by the National Network of Digital Innovation Labs of Peru's Secretariat of Government and Digital Transformation. The institutional counterparts contribute the use case and the validation; they are not responsible for the code.",
+    footMethod:"All content on this page comes from the component's repository: the state machine, the ingestion schema, the ordinance's admitted payload, the testnet run summaries and the verifier results. Normative sources were read and verified in their official texts.",
+    verRepo:"View the repository",
+    conforme:"conformant",
+    noConforme:"non-conformant",
+    exito:"success",
+    rechazada:"rejected"
+  }
+};
+
+/* ---------- estado ---------- */
+var cur = 0;
+var scores = CRITERIOS.map(function(k){ return k.v[0]; });
+
+function t(k){ return T[L][k]; }
+function el(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]; }); }
+function shortHash(h){ return h.slice(0,8) + "…" + h.slice(-4); }
+function fmt(n){ return n.toLocaleString(L === "es" ? "es-PE" : "en-US"); }
+function sevClass(s){ return s === "bloqueante" ? "b-block" : s === "alerta" ? "b-warn" : "b-soft"; }
+function sevLabel(s){
+  if (L === "es") return s;
+  return s === "bloqueante" ? "blocking" : s === "alerta" ? "alert" : "informational";
+}
+
+/* ---------- render ---------- */
+function renderStatic(){
+  el("heroEyebrow").textContent = t("heroEyebrow");
+  el("heroTitle").textContent = t("heroTitle");
+  el("heroSub").textContent = t("heroSub");
+  el("calloutTitle").textContent = t("calloutTitle");
+  el("calloutBody").textContent = t("calloutBody");
+  el("heroMeta").innerHTML = t("chips").map(function(c){
+    return '<span class="badge b-soft">' + esc(c) + "</span>";
+  }).join("") + '<a class="badge b-soft" href="' + REPO + '" target="_blank" rel="noopener">' + esc(t("verRepo")) + " ↗</a>";
+
+  el("l_recorrido_eyebrow").textContent = t("recorridoEyebrow");
+  el("l_recorrido_title").textContent = t("recorridoTitle");
+  el("l_recorrido_note").textContent = t("recorridoNote");
+  el("l_evidencia").textContent = t("evidencia");
+  el("l_estado_impl").textContent = t("estadoImpl");
+  el("l_inc_reales").textContent = t("incReales");
+  el("btnPrev").textContent = t("prev");
+  el("btnNext").textContent = t("next");
+
+  el("l_piezas_eyebrow").textContent = t("piezasEyebrow");
+  el("l_piezas_title").textContent = t("piezasTitle");
+  el("l_piezas_note").textContent = t("piezasNote");
+
+  el("l_verif_eyebrow").textContent = t("verifEyebrow");
+  el("l_verif_title").textContent = t("verifTitle");
+  el("l_verif_note").textContent = t("verifNote");
+  el("l_conf_note").textContent = t("confNote");
+
+  el("l_red_eyebrow").textContent = t("redEyebrow");
+  el("l_red_title").textContent = t("redTitle");
+  el("l_red_note").textContent = t("redNote");
+  el("l_red_foot").textContent = t("redFoot");
+
+  el("l_mat_eyebrow").textContent = t("matEyebrow");
+  el("l_mat_title").textContent = t("matTitle");
+  el("l_mat_note").textContent = t("matNote");
+  el("l_score_label").textContent = t("scoreLabel");
+  el("scoreRange").textContent = t("puntosDe");
+
+  el("l_dp_eyebrow").textContent = t("dpEyebrow");
+  el("l_dp_title").textContent = t("dpTitle");
+  el("l_dp_note").textContent = t("dpNote");
+
+  el("footText").textContent = t("footText");
+  el("footMethod").textContent = t("footMethod");
+}
+
+function renderRail(){
+  el("rail").innerHTML = HITOS.map(function(h, i){
+    return '<button type="button" role="tab" data-i="' + i + '" aria-current="' + (i === cur) + '">'
+      + '<small>' + esc(h.codes) + "</small><strong>" + esc(h.rail[L]) + "</strong></button>";
+  }).join("");
+}
+
+function renderHito(){
+  var h = HITOS[cur];
+  el("tbTitle").textContent = (L === "es" ? "Hito " : "Milestone ") + (cur + 1) + " · " + h.rail[L];
+  el("stepCount").textContent = (cur + 1) + "/" + HITOS.length;
+  el("prog").style.width = ((cur + 1) / HITOS.length * 100) + "%";
+
+  el("hitoKicker").textContent = (L === "es" ? "Hito " : "Milestone ") + String(cur + 1).padStart(2, "0") + " · " + h.codes;
+  el("hitoTitle").textContent = h.title[L];
+  el("hitoPhase").textContent = h.phase[L];
+  el("hitoDesc").textContent = h.desc[L];
+
+  el("hitoTrans").innerHTML = h.trans.map(function(x){
+    return '<div class="trans-item"><span class="tcode">' + esc(x.c) + "</span><span>" + esc(x[L]) + "</span></div>";
+  }).join("");
+
+  el("hitoDl").innerHTML = [
+    ["dlFirma", h.firma[L]],
+    ["dlEvidencia", h.evidencia[L]],
+    ["dlLegal", h.legal[L]],
+    ["dlCiclo", h.ciclo]
+  ].map(function(r){
+    var isCycle = r[0] === "dlCiclo";
+    return '<div class="dl-row"><dt>' + esc(t(r[0])) + "</dt><dd" + (isCycle ? ' class="mono"' : "") + ">" + esc(r[1]) + "</dd></div>";
+  }).join("");
+
+  el("hitoGuards").innerHTML = h.guards.map(function(g){
+    var d = GUARDS[g][L];
+    return '<div class="guard"><b>' + esc(d[0]) + "</b><span>" + esc(d[1]) + "</span></div>";
+  }).join("");
+
+  el("hitoStatus").innerHTML = [
+    '<span class="badge ' + (h.ingesta === "validada" ? "b-ok" : "b-pend") + '">'
+      + esc(h.ingesta === "validada" ? t("stIngestaOk") : t("stIngestaPend")) + "</span>",
+    '<span class="badge b-ok">' + esc(t("stFirma")) + "</span>",
+    '<span class="badge b-pend">' + esc(t("stGuardas")) + "</span>"
+  ].join("");
+
+  el("hitoIncs").innerHTML = h.incs.length === 0
+    ? '<p style="font-size:.85rem;color:var(--muted)">' + esc(t("sinIncs")) + "</p>"
+    : h.incs.map(function(code){
+        var d = INCS[code];
+        return '<div class="inc"><div class="inc-head"><span class="inc-code">' + esc(code) + "</span>"
+          + '<span class="badge ' + sevClass(d.sev) + '">' + esc(sevLabel(d.sev)) + "</span></div>"
+          + "<p>" + esc(d[L]) + "</p><em>" + esc(d.loc) + "</em></div>";
+      }).join("");
+
+  Array.prototype.forEach.call(el("rail").children, function(b, i){
+    b.setAttribute("aria-current", String(i === cur));
+  });
+  el("btnPrev").disabled = cur === 0;
+  el("btnNext").disabled = cur === HITOS.length - 1;
+}
+
+function renderPiezas(){
+  el("pieces").innerHTML = PIEZAS.map(function(p){
+    var d = p[L];
+    return '<div class="piece"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline">'
+      + '<h3>' + esc(d[0]) + "</h3><span class=\"mono\" style=\"color:var(--muted);font-size:.75rem\">0" + p.n + "</span></div>"
+      + "<p>" + esc(d[1]) + '</p><div class="row-chips"><span class="badge '
+      + (p.state === "ok" ? "b-ok" : "b-pend") + '">' + esc(d[2]) + "</span></div></div>";
+  }).join("");
+}
+
+function renderChecks(){
+  el("checksDoc").innerHTML = CHECKS_DOC.map(function(c){
+    var d = c[L];
+    return '<div class="check"><span class="check-mark" style="color:' + (c.ok ? "var(--ok)" : "var(--block)") + '">'
+      + (c.ok ? "✓" : "✕") + "</span>"
+      + "<div><h4 class=\"mono\">" + esc(c.id) + " · " + esc(d[0]) + "</h4><p>" + esc(d[1]) + "</p>"
+      + '<div class="hash" style="margin-top:8px">' + esc(c.want) + "</div>"
+      + (c.ok ? "" : '<div class="hash" style="margin-top:5px;color:var(--block)">' + esc(c.got) + "</div>")
+      + "</div>"
+      + '<div class="check-side"><span class="badge ' + (c.ok ? "b-ok" : "b-block") + '">' + esc(d[2]) + "</span></div></div>";
+  }).join("")
+  + '<div class="check"><span class="check-mark" style="color:var(--warn)">!</span><div><h4>'
+  + esc(t("estadoValidacion")) + "</h4></div><div class=\"check-side\"></div></div>";
+
+  el("checksConf").innerHTML = CHECKS_CONF.map(function(c){
+    return '<div class="check" style="padding:9px 14px"><span class="check-mark mono" style="color:var(--accent-ink);font-size:.82rem">'
+      + esc(c.id) + "</span><div><h4 style=\"font-size:.88rem\">" + esc(c[L][0]) + "</h4></div><div class=\"check-side\"></div></div>";
+  }).join("");
+}
+
+function renderTxs(){
+  el("txHead").innerHTML = ["thRun","thStep","thWhat","thLedger","thFee","thResult","thTx"].map(function(k){
+    return "<th>" + esc(t(k)) + "</th>";
+  }).join("");
+  el("txBody").innerHTML = TXS.map(function(x){
+    var res = '<span class="badge ' + (x.ok ? "b-ok" : "b-block") + '">' + esc(x.ok ? t("exito") : t("rechazada")) + "</span>";
+    if (x.err) res += '<div class="mono" style="font-size:.7rem;color:var(--muted);margin-top:4px">' + esc(x.err) + "</div>";
+    if (x.conf) res += '<div style="margin-top:4px"><span class="badge ' + (x.conf === "conforme" ? "b-ok" : "b-pend")
+      + '">' + esc(x.conf === "conforme" ? t("conforme") : t("noConforme")) + "</span></div>";
+    return "<tr><td class=\"num\">" + esc(x.run) + "</td><td class=\"num\">" + esc(x.step) + "</td><td>" + esc(x[L])
+      + '</td><td class="num">' + (x.ledger === null ? '<span class="badge b-pend">' + esc(t("sinDato")) + "</span>" : fmt(x.ledger))
+      + '</td><td class="num">' + (x.fee === null ? '<span class="badge b-pend">' + esc(t("sinDato")) + "</span>" : fmt(x.fee) + " stroops")
+      + "</td><td>" + res + '</td><td><a href="' + EXPERT + x.hash + '" target="_blank" rel="noopener">'
+      + esc(shortHash(x.hash)) + " ↗</a></td></tr>";
+  }).join("");
+}
+
+function renderMatrix(){
+  el("crits").innerHTML = CRITERIOS.map(function(k, i){
+    return '<div class="crit"><div class="crit-name">' + esc(k[L]) + "<small>" + esc(k.c) + "</small></div>"
+      + '<div class="vals" role="group">' + k.v.map(function(v){
+          return '<button type="button" data-k="' + i + '" data-v="' + v + '" aria-pressed="'
+            + (scores[i] === v) + '">' + v + "</button>";
+        }).join("") + "</div></div>";
+  }).join("");
+  renderScore();
+}
+
+function renderScore(){
+  var total = scores.reduce(function(a, b){ return a + b; }, 0);
+  el("scoreNum").textContent = total;
+  el("scoreBar").style.width = ((total - 13) / (71 - 13) * 100) + "%";
+  var notes = [];
+  if (total === 71) notes.push(L === "es"
+    ? ["Puntaje máximo de la escala.","Los trece criterios en su valor más alto suman 71. El contrato rechazaría cualquier total mayor."]
+    : ["Top of the scale.","All thirteen criteria at their highest value sum to 71. The contract would reject any higher total."]);
+  if (total === 13) notes.push(L === "es"
+    ? ["Puntaje mínimo de la escala.","Trece criterios en su valor mínimo suman 13. Un total menor sería inválido."]
+    : ["Bottom of the scale.","Thirteen criteria at their minimum value sum to 13. Any lower total would be invalid."]);
+  notes.push(L === "es"
+    ? ["Criterio base excluyente · relacion_pdc","La relación con el Plan de Desarrollo Concertado no suma puntos: si no se cumple, excluye el proyecto antes de que el puntaje importe."]
+    : ["Exclusionary base criterion · relacion_pdc","Alignment with the Concerted Development Plan adds no points: fail it and the project is excluded before the score matters."]);
+  notes.push(L === "es"
+    ? ["INC-09 · la matriz no define regla de desempate","Si dos alternativos empatan, elegir al segundo exige motivo anclado y firma del comité. Es un límite conocido de la norma, no del contrato."]
+    : ["INC-09 · the matrix defines no tie-break rule","If two alternates tie, choosing the second requires an anchored justification and the committee's signature. This is a known limit of the ordinance, not of the contract."]);
+  notes.push(L === "es"
+    ? ["INC-13 · un criterio sin puntaje","El criterio sostenibilidad aparece en la matriz sin valores asignados y no figura en el Anexo 2, así que queda fuera del recálculo."]
+    : ["INC-13 · one criterion without a score","The sustainability criterion appears in the matrix with no assigned values and is absent from Annex 2, so it stays out of the recomputation."]);
+  el("matNotes").innerHTML = notes.map(function(n){
+    return '<div class="guard"><b>' + esc(n[0]) + "</b><span>" + esc(n[1]) + "</span></div>";
+  }).join("");
+}
+
+function renderDp(){
+  el("dpList").innerHTML = DP.map(function(d){
+    return '<div class="piece"><h3>' + esc(d[L][0]) + "</h3><p>" + esc(d[L][1]) + "</p></div>";
+  }).join("");
+}
+
+function renderAll(){
+  renderStatic();
+  renderRail();
+  renderHito();
+  renderPiezas();
+  renderChecks();
+  renderTxs();
+  renderMatrix();
+  renderDp();
+}
+
+/* ---------- eventos ---------- */
+el("rail").addEventListener("click", function(e){
+  var b = e.target.closest("[data-i]");
+  if (!b) return;
+  cur = Number(b.dataset.i);
+  renderHito();
+});
+el("btnPrev").addEventListener("click", function(){
+  if (cur > 0) { cur--; renderHito(); }
+});
+el("btnNext").addEventListener("click", function(){
+  if (cur < HITOS.length - 1) { cur++; renderHito(); }
+});
+el("crits").addEventListener("click", function(e){
+  var b = e.target.closest("[data-k]");
+  if (!b) return;
+  scores[Number(b.dataset.k)] = Number(b.dataset.v);
+  renderMatrix();
+});
+function setLang(lang){
+  L = lang;
+  el("langEs").setAttribute("aria-pressed", String(lang === "es"));
+  el("langEn").setAttribute("aria-pressed", String(lang === "en"));
+  renderAll();
+}
+el("langEs").addEventListener("click", function(){ setLang("es"); });
+el("langEn").addEventListener("click", function(){ setLang("en"); });
+
+renderAll();
+</script>
+</body>
+</html>
