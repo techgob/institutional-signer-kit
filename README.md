@@ -31,7 +31,8 @@ For the institution: zero XLM, no budget line, no asset custody, and an authoriz
 |---|---|
 | Fee-payer separation on testnet | [`8ba16039…7e5f`](https://stellar.expert/explorer/testnet/tx/8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f) |
 | Role-signed authorization, published as XDR and relayed by a third party | [`fb284c5b…b8dd`](https://stellar.expert/explorer/testnet/tx/fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd) |
-| Demo video (2 min) | `[link]` |
+| Interactive walkthrough of the cycle, with the real evidence | [signerkit.govtechpe.work](https://signerkit.govtechpe.work) |
+| Demo video (2 min) | [https://youtu.be/Pel8UScd8x4] |
 
 ## Validated on a real case
 
@@ -75,12 +76,13 @@ To reproduce the signature without XLM on testnet (HU-01), an operator handover 
 | `planning/` | Sprint plan as validated data, not prose |
 | `evidence/` | Hashes and links to official documents and transactions |
 | `docs/` | Statement of Work, state machine, data protection rule, architecture decisions |
+| `demo/` | Static walkthrough of the eight milestones, built from the specification and the recorded evidence |
 
 ## Status
 
 **Done, self-funded (~45 design hours):** state machine derived article by article from both municipalities' regulations; data contract with per-field admission rules; two-layer validator with 7 test cases; forensic analysis of both entities' documents; testnet proof of concept of fee-payer separation.
 
-**Funded by this Instaward:** Signer Kit v1 packaged and documented; cycle registry T0–T8 on testnet with guards; ingestion v2 handling both document profiles; citizen verifier; user research with both municipalities.
+**Scope of this Instaward request:** Signer Kit v1 packaged and documented; cycle registry T0–T8 on testnet with guards; ingestion v2 handling both document profiles; citizen verifier; user research with both municipalities.
 
 **Not in scope yet:** tokenization, project substitution, role-and-cycle multisig, Programa del Vaso de Leche profile, mainnet, external audit.
 
