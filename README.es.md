@@ -32,7 +32,7 @@ Para la entidad: saldo cero en XLM, ninguna partida presupuestal, ninguna custod
 | Separación firmante-pagador en testnet | [`8ba16039…7e5f`](https://stellar.expert/explorer/testnet/tx/8ba160396082e0ac29dc0324e96a119a90f99c2e9fd9a10aa2941746c14e7e5f) |
 | Autorización del rol publicada como XDR y transmitida por un tercero | [`fb284c5b…b8dd`](https://stellar.expert/explorer/testnet/tx/fb284c5b28ce79738db571107c0f8ce0906fd7d48bb39b09e1282d0c2a64b8dd) |
 | Recorrido interactivo del ciclo, con la evidencia real | [signerkit.govtechpe.work](https://signerkit.govtechpe.work) |
-| Video de demostración (2 min) | [https://youtu.be/Pel8UScd8x4] |
+| Video de demostración (1:41) | [youtu.be/Pel8UScd8x4](https://youtu.be/Pel8UScd8x4) |
 
 ## Validado en un caso real
 
