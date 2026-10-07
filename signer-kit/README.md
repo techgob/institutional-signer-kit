@@ -13,8 +13,8 @@ Criterios de aceptación en `../planning/sprint_S00_preparacion_postulacion.json
 
 `hu01.py` ejecuta en testnet los tres criterios de HU-01 contra el contrato de ejemplo de
 `../contracts/ejemplo`. Las dos piezas existen como funciones: `entrada_firmada` es
-`sign-auth-entry` y `transmitir` es el `relayer`. La lista de contratos y funciones permitidos y
-el tope de gasto del relayer todavía no están implementados.
+`sign-auth-entry` y `transmitir` es el `relayer`. El relayer con lista permitida, tope de gasto y
+límite de frecuencia está en `relayer.py` (sección "Relayer con política restringida" más abajo).
 
 ```sh
 cd contracts/ejemplo && cargo test && stellar contract build && cd ../..
@@ -79,12 +79,44 @@ la red el rechazo de la passkey vieja y registra con la nueva. Las passkeys se g
 y quedan en `signer-kit/salida/passkeys/`, que no se versiona. Falta probar la ceremonia con un
 autenticador real en el navegador.
 
+## Relayer con política restringida
+
+`relayer.py` recibe la invocación que autorizó un rol, la compara con un archivo de política y, si
+pasa, publica las entradas como XDR, firma como origen, paga y transmite. La interfaz, los códigos
+de rechazo y el formato de la política y de los registros están en `../docs/pieza2-interfaz.md`.
+
+```sh
+python signer-kit/relayer.py --politica politica.json --registro registro/ --operador tg-operador solicitud.json
+```
+
+La solicitud lleva la función de host y las entradas firmadas en XDR (sección 2 de la interfaz).
+Cada envío queda en `registro/comisiones.jsonl`, cada rechazo en `registro/rechazos.jsonl` y las
+entradas transmitidas en `registro/publicadas/`. Para revisar una transacción enviada, pasa su
+`hash` a `../verifier/conformidad.py`.
+
+`test_relayer.py` prueba sin red, sobre la invocación real de CA-01-1 y con un doble de la red, los
+rechazos por contrato, función, rol, frecuencia, firma vencida, comisión estimada y tope de gasto,
+y un caso aceptado. La corrida en testnet del 7 de octubre de 2026 (R-1 a R-3) está en
+`../evidence/transacciones.md`.
+
+Límites de esta versión:
+
+- Solo testnet, y envía en serie: sin envío en paralelo ni reintentos con fee-bump.
+- Una solicitud admite entradas de un solo rol. La política se aplica a la invocación raíz; las
+  subinvocaciones que el rol autorice dentro de ella no se revisan.
+- Si la transacción se envía pero la confirmación no llega en 60 segundos (`esperar` de `hu01.py`),
+  el comando sale con código 1, el mensaje de error trae el hash y la comisión no queda en
+  `comisiones.jsonl`: hay que agregarla a mano después de confirmarla.
+- No hay todavía un `sign-auth-entry` genérico: para armar una solicitud hay que firmar la entrada
+  como lo hacen `hu01.py` o `passkey.py` y serializar la función de host y la entrada en base64.
+
 ## Usarlo con un contrato propio
 
 El contrato tiene que exigir la firma del rol con `rol.require_auth()` en la función que se
 invoca, como hace `../contracts/ejemplo`. Hoy los tres scripts invocan `registrar(rol, huella)`;
 para otra función hay que cambiar el nombre y los argumentos en `invocacion`. Generalizarlo es
-parte del empaquetado como v1.
+parte del empaquetado como v1. El relayer ya acepta cualquier contrato y función que la política
+permita.
 
 Para comprobar que tus transacciones cumplen lo que el kit promete, pásalas por
 `../verifier/conformidad.py` (ver `../verifier/README.md`).
