@@ -50,6 +50,8 @@ restricción valga, los clientes no pueden tener acceso directo a la API del rel
 plugin. El SOW pide tope de gasto por rol y registro de rechazos (`docs/statement-of-work.md`,
 pieza 2); con Channels, el tope por rol equivaldría a una clave de API por rol. Queda por medir si
 esto cuesta menos que un relayer propio dentro de las 35 horas de desarrollo que el SOW asigna a E1.
+La comparación de costos entre los dos caminos está en `docs/pieza2-evaluacion.md`, que recomienda
+un relayer propio para E1.
 
 ## Proyectos del ecosistema más cercanos
 
@@ -98,4 +100,5 @@ usuarios. Solo se consultó ese resumen, no la grabación completa.
 ## Pendiente de verificar
 
 - La grabación completa del taller de Instawards.
-- Que el plugin propuesto para la pieza 2 funcione como se describe; no se escribió ni se probó.
+- Que el plugin propuesto para la pieza 2 funcione como se describe; no se escribió ni se probó, y la
+  evaluación de `docs/pieza2-evaluacion.md` recomienda otro camino para E1.
