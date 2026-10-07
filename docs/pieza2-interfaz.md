@@ -40,7 +40,8 @@ Métodos de `red`:
 | `transmitir(funcion_host, entradas)` | `dict` con `estado`, `hash`, `enlace`, `transmite_y_paga`, `comision_stroops`, `ledger` | `signer-kit/passkey.py:89-94` (firma como operador y envía), `signer-kit/hu01.py:104-110` (espera) y `:113-125` (arma ese mismo `dict`) |
 
 `funcion_host` es un `xdr.HostFunction` y `entradas` una lista de `xdr.SorobanAuthorizationEntry`,
-ya decodificados.
+ya decodificados. Si la red no puede simular la invocación, `estimar_comision` lanza
+`relayer.SimulacionFallida`. La implementación para testnet es `relayer.RedTestnet`.
 
 ### Comando del kit
 
@@ -145,6 +146,10 @@ pruebas es un doble: por eso todas las pruebas corren sin conexión.
 | 7 | `COMISION_EXCESIVA` | La comisión estimada supera `comision_maxima_stroops` | `comision_estimada_stroops`, `comision_maxima_stroops` | Sí: `estimar_comision()` |
 | 8 | `TOPE_DE_GASTO` | Lo consumido en el período más la comisión estimada supera `tope_stroops` del rol | `consumido_stroops`, `comision_estimada_stroops`, `tope_stroops`, `periodo_segundos` | Sí: usa la estimación anterior |
 
+Si `estimar_comision()` lanza `SimulacionFallida` (firma inválida, nonce ya usado, contrato que
+falla), el rechazo es `ENTRADA_INVALIDA` con razón `simulacion_fallida` y el mensaje de la red en
+`detalle.mensaje`.
+
 `ROL_NO_PERMITIDO` no estaba en la lista original de códigos. Se agrega porque el tope es por rol y
 un rol sin entrada en la política no tiene tope contra el cual comparar.
 
@@ -152,13 +157,14 @@ Razones de `ENTRADA_INVALIDA`:
 
 | `razon` | Qué se comprobó | Antecedente en el código actual |
 |---|---|---|
-| `formato` | Falta un campo, `version` no es `1` o un XDR no se decodifica | **Nuevo** |
+| `formato` | Falta un campo, `version` no es `1`, un XDR no se decodifica o una dirección no se puede leer | **Nuevo** |
 | `funcion_host_no_invocacion` | La función de host no es una invocación de contrato (crear contrato o subir WASM no se pagan) | **Nuevo**. OpenZeppelin Relayer hace el mismo rechazo (ver `docs/diferenciacion.md`) |
-| `sin_autorizacion_de_rol` | Ninguna entrada trae credenciales de dirección | `verifier/conformidad.py:47-48` descarta las entradas sin credenciales de dirección; C3 exige que el rol no sea quien envía (`:54`) |
+| `sin_autorizacion_de_rol` | Alguna entrada no trae credenciales de dirección: con credenciales de la cuenta de origen autorizaría el operador, no el rol | `verifier/conformidad.py:47-48` descarta las entradas sin credenciales de dirección; C3 exige que el rol no sea quien envía (`:54`) |
 | `mas_de_un_rol` | Las entradas vienen de más de un rol; esta versión admite uno solo | **Nuevo** |
 | `invocacion_distinta` | La invocación firmada en la entrada no coincide con `funcion_host` | **Nuevo** |
 | `sin_firma` | La firma de la entrada está vacía | `verifier/conformidad.py:50` (C4) |
 | `vencida` o `vigencia_excesiva` | `vence_en_ledgers <= 0` o mayor que `vigencia_maxima_ledgers` | `verifier/conformidad.py:51` y `:56` (C5); hoy el kit firma con 300 ledgers (`signer-kit/hu01.py:27-28`) |
+| `simulacion_fallida` | La red no pudo simular la invocación (orden 7) | **Nuevo**. En HU-01 la simulación del reenvío de una entrada ya usada falló con `PrepareTransactionException` (`signer-kit/hu01.py:155-161`) |
 
 El relayer no verifica la firma criptográfica de la entrada: lo hace la red al simular y al
 ejecutar, también para las cuentas de contrato con passkey (`contracts/cuenta-passkey`).
@@ -214,14 +220,15 @@ frecuencia de cada rol, y lo que lee el verificador de conformidad (pieza 3).
 |---|---|
 | `fecha` | `reloj()` en ISO 8601 UTC con la forma `AAAA-MM-DDTHH:MM:SSZ`; **nuevo** (las evidencias actuales anotan la fecha a mano en `evidence/transacciones.md`) |
 | `rol`, `contrato`, `funcion` | Ver sección 3 |
-| `solicitud_sha256` | SHA-256 en hexadecimal de `funcion_host` y las `entradas`, unidos por saltos de línea; **nuevo**, mismo uso de `hashlib` que `signer-kit/hu01.py:12` y `:133` |
+| `solicitud_sha256` | SHA-256 en hexadecimal de `funcion_host` y las `entradas`, unidos por saltos de línea; si la solicitud no tiene esos campos, SHA-256 de su JSON con claves ordenadas. **Nuevo**, mismo uso de `hashlib` que `signer-kit/hu01.py:12` y `:133` |
 | `entradas_sha256` | SHA-256 de cada entrada en XDR: enlaza la comisión con la entrada que la originó (`docs/statement-of-work.md:119`); **nuevo** |
 | `xdr_publicado` | Ver sección 3 |
 | `comision_estimada_stroops` | Ver sección 3 |
 | `estado`, `hash`, `enlace`, `transmite_y_paga`, `comision_stroops`, `ledger` | `signer-kit/hu01.py:117-122`; mismos nombres que `evidence/hu01/evidencia.json:11-16`. El verificador toma `hash` (`verifier/conformidad.py:76`) |
 
-Consumo del rol en el período: suma de `comision_stroops` de sus líneas con `fecha` dentro de la
-ventana. Frecuencia: cantidad de esas líneas.
+Consumo del rol en el período: suma de `comision_stroops` de sus líneas con `fecha` posterior a
+`reloj()` menos `periodo_segundos`. Frecuencia: cantidad de esas líneas. Una comisión que la red
+no informó (`comision_stroops` en `null`) cuenta como 0 para el tope y como 1 para la frecuencia.
 
 ### `rechazos.jsonl`
 
@@ -231,7 +238,8 @@ Una línea por cada solicitud rechazada.
 {"fecha": "2026-11-10T15:00:00Z", "codigo": "CONTRATO_NO_PERMITIDO", "motivo": "…", "solicitud_sha256": "…", "rol": "GA73…277V", "contrato": "CDGC…BL27", "funcion": "registrar", "detalle": {"contrato": "CDGC…BL27"}}
 ```
 
-`rol`, `contrato` y `funcion` van en `null` cuando la solicitud no llegó a decodificarse. Todo el
+`rol`, `contrato` y `funcion` van en `null` cuando el rechazo ocurre en el orden 1, al leer la
+solicitud. Todo el
 archivo es **nuevo**: hoy el kit no registra rechazos (`signer-kit/README.md:16-17`).
 
 ### `publicadas/<solicitud_sha256>.xdr`
@@ -242,15 +250,14 @@ tercero puede transmitirlas, como en CA-01-2 (`evidence/transacciones.md:23`).
 
 ## 7. Pruebas
 
-`signer-kit/test_relayer.py` contiene las tres pruebas de rechazo que pide el SOW
-(`docs/statement-of-work.md:128`): contrato no permitido, función no permitida y tope de gasto
-superado. Usan como solicitud la invocación real de CA-01-1 guardada en
-`verifier/datos_prueba/conforme.xdr` y un doble de `red`; ninguna toca la red. Comprueban el código
-de rechazo, que no se transmitió ni se publicó nada, la línea agregada a `rechazos.jsonl` y, en las
-dos primeras, que no se llamó a la red. El CI las corre en el job `contrato-de-datos`.
+`signer-kit/test_relayer.py` prueba la implementación de `signer-kit/relayer.py` sin red y sin
+claves. Usa como solicitud la invocación real de CA-01-1 guardada en
+`verifier/datos_prueba/conforme.xdr` y un doble de `red`. Cubre las tres pruebas de rechazo del SOW
+(`docs/statement-of-work.md:128`: contrato no permitido, función no permitida y tope de gasto),
+`ROL_NO_PERMITIDO`, `LIMITE_DE_FRECUENCIA`, `COMISION_EXCESIVA`, la firma vencida y un caso
+aceptado. En cada rechazo comprueba el código, que no se transmitió ni se publicó nada y la línea de
+`rechazos.jsonl`; en el caso aceptado, la respuesta, el XDR publicado, el orden de las llamadas a la
+red y la línea de `comisiones.jsonl`. Una prueba más comprueba que la solicitud de prueba se arma
+bien. El CI las corre en el job `contrato-de-datos`.
 
-Mientras `signer-kit/relayer.py` no exista, las tres están marcadas con
-`@unittest.expectedFailure` y el CI sigue en verde. Cuando el relayer las haga pasar, unittest las
-reporta como "unexpected success" y el CI falla: es la señal para quitar la marca. Una cuarta
-prueba, sin marca, comprueba que la solicitud de prueba se arma bien, para que las otras tres no
-fallen por un error propio.
+`RedTestnet` no tiene pruebas automáticas: necesita la red y la clave del operador.
