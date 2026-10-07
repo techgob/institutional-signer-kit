@@ -71,7 +71,20 @@ conforme CA-01-1, CA-01-2, T-2, P-1 y P-4. T-1 y P-3 dieron no conforme, como co
 
 ## Nota sobre la permanencia de estos enlaces
 
-La red de pruebas de Stellar se reinicia una vez por trimestre y borra todos los datos. Si un enlace de esta tabla deja de resolver, el script de reproducción permite regenerar la transacción en minutos. Por eso se registra también la fecha: un enlace caído después de un reinicio anunciado no invalida la evidencia, solo exige rehacerla.
+La red de pruebas de Stellar se reinicia periódicamente y borra todos los datos. Si un enlace de esta tabla deja de resolver, el script de reproducción permite regenerar la transacción en minutos. Por eso se registra también la fecha: un enlace caído después de un reinicio anunciado no invalida la evidencia, solo exige rehacerla.
+
+Según la documentación oficial, los reinicios de testnet suelen ocurrir de 2 a 4 veces por año, a
+las 17:00 UTC, y se anuncian con al menos dos semanas de anticipación en el
+[Stellar Dashboard](https://dashboard.stellar.org). **El próximo programado es el 16 de diciembre
+de 2026** ([stellar/stellar-docs](https://github.com/stellar/stellar-docs), commit `7a90bb8e`,
+`docs/networks/README.mdx:62-66`, consultado el 7 de octubre de 2026). Si el sprint empieza el 2 de
+noviembre, termina antes de esa fecha, pero cualquier revisión posterior al 16 de diciembre
+encontrará rotos los enlaces de esta página.
+
+Lo que sobrevive al reinicio porque está en este repositorio: los resúmenes de cada corrida
+(`hu01/evidencia.json`, `operador/traspaso.json`, `passkey/passkey.json`), con hashes, ledgers y
+comisiones, y la entrada B publicada (`hu01/autorizacion_B.xdr`). Para repetir las corridas hay que
+volver a desplegar antes los contratos que los scripts reciben como argumento.
 
 ## Cuentas usadas
 

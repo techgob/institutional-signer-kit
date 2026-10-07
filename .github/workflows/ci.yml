@@ -7,6 +7,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  contratos:
+    name: Contratos Soroban
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        contrato: [cuenta-passkey, ejemplo]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rust estable
+        run: rustup toolchain install stable --profile minimal && rustup default stable
+
+      - name: Las pruebas del contrato pasan
+        working-directory: contracts/${{ matrix.contrato }}
+        run: cargo test --locked
+
   contrato-de-datos:
     name: Contrato de datos e ingesta
     runs-on: ubuntu-latest
