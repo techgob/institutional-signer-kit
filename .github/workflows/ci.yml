@@ -56,6 +56,9 @@ jobs:
       - name: El verificador local y las pruebas de conformidad pasan
         run: python3 -m unittest discover verifier
 
+      - name: Las pruebas de rechazo del relayer corren (esperadas a fallar mientras no exista)
+        run: python3 -m unittest discover signer-kit -v
+
   plan-de-sprint:
     name: Plan de sprint
     runs-on: ubuntu-latest
