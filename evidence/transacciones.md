@@ -63,11 +63,27 @@ Las passkeys de esta corrida se generan en software con el mismo formato que ent
 autenticador WebAuthn. Falta probar la ceremonia con un autenticador real en el navegador; lo que
 ocurre en la red es lo mismo.
 
+## Relayer con política restringida
+
+Corrida de `signer-kit/relayer.py` del 7 de octubre de 2026, con `RedTestnet` y el operador
+`tg-operador`. El rol `GA73…277V` firma una entrada nueva en cada solicitud y el relayer la compara
+con la política antes de pagar. Los registros que dejó el relayer están en `relayer/`
+(`comisiones.jsonl`, `rechazos.jsonl` y el XDR publicado antes de transmitir).
+
+| Paso | Política | Resultado | Transacción | Comisión |
+|---|---|---|---|---|
+| R-1 | `registrar` permitida, tope 300 000 stroops | aceptada | [`544f62f8…dbb8`](https://stellar.expert/explorer/testnet/tx/544f62f8f97aa32284a3a59dd80a35ecbb28b6686a12dd2c6ecd1da37e18dbb8) | 13 666 stroops cobrados (23 811 estimados), operador |
+| R-2 | solo `rotar` permitida | rechazada antes de tocar la red: `FUNCION_NO_PERMITIDA` | no se envía | 0 |
+| R-3 | `registrar` permitida, tope 30 000 stroops | rechazada: `TOPE_DE_GASTO` (13 666 consumidos + 23 811 estimados) | no se envía | 0 |
+
+R-1 dio conforme en `verifier/conformidad.py` (C1 a C6). Los rechazos no generan transacción: la
+prueba es la línea de `relayer/rechazos.jsonl` y que el operador no pagó nada por ellos.
+
 ## Conformidad
 
 `verifier/conformidad.py` revisa una transacción confirmada contra las propiedades del kit, sin
 claves. Lo puede correr cualquier operador sobre sus propias transacciones. El 5 de octubre dieron
-conforme CA-01-1, CA-01-2, T-2, P-1 y P-4. T-1 y P-3 dieron no conforme, como corresponde.
+conforme CA-01-1, CA-01-2, T-2, P-1 y P-4, y el 7 de octubre R-1. T-1 y P-3 dieron no conforme, como corresponde.
 
 ## Nota sobre la permanencia de estos enlaces
 

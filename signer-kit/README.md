@@ -96,7 +96,8 @@ entradas transmitidas en `registro/publicadas/`. Para revisar una transacción e
 
 `test_relayer.py` prueba sin red, sobre la invocación real de CA-01-1 y con un doble de la red, los
 rechazos por contrato, función, rol, frecuencia, firma vencida, comisión estimada y tope de gasto,
-y un caso aceptado. Todavía no hay una corrida en testnet.
+y un caso aceptado. La corrida en testnet del 7 de octubre de 2026 (R-1 a R-3) está en
+`../evidence/transacciones.md`.
 
 Límites de esta versión:
 
