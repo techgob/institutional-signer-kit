@@ -82,9 +82,13 @@ To reproduce the signature without XLM on testnet (HU-01), an operator handover 
 
 **Done, self-funded (~45 design hours):** state machine derived article by article from both municipalities' regulations; data contract with per-field admission rules; two-layer validator with 7 test cases; forensic analysis of both entities' documents; testnet proof of concept of fee-payer separation.
 
-**Scope of this Instaward request:** Signer Kit v1 packaged and documented; cycle registry T0–T8 on testnet with guards; ingestion v2 handling both document profiles; citizen verifier; user research with both municipalities.
+**Scope of this Instaward request:** Signer Kit v1 complete, with all five relayer refusal cases run on testnet. Cycle registry T0–T4 on testnet with guards G1, G2, G6 and G7. Both real cycle openings, one per municipality. Milestone certificate. Live verifier, fee measurement and cost report to the authorities over T0–T4.
 
-**Not in scope yet:** tokenization, project substitution, role-and-cycle multisig, Programa del Vaso de Leche profile, mainnet, external audit.
+**Why the scope is T0–T4 and not T0–T8.** On the recommendation of the person who decides within the ambassador chapter which projects are submitted to the Instaward, the project was evaluated with Stellar Raven, the server that gives AI agents Stellar's documentation and ecosystem context. The review compared this application with projects that already received Instawards and concluded that the earlier plan was oversized for 30 days. The recommendation was to reduce the scope of the deliverables. This version has three deliverables instead of four, and none depends on a third party's signature to close. The full review is in the repository history: `docs/revision-postulacion.md`, commit `6bb92c6`.
+
+**Proposed for sprints 2 and 3** (section 7 of the SOW): transitions T5 to T13, ingestion of La Punta's five published cycles, user research, full citizen verifier, project substitution and the Programa del Vaso de Leche profile.
+
+**Out of scope for the whole programme:** tokenization, role-and-cycle multisig, mainnet and external audit.
 
 ## Data protection by design
 
