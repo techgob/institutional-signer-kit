@@ -48,6 +48,6 @@ se registran pendientes: el SOW y los documentos para terceros no los llevan.
 - [x] Agregar el usuario de GitHub (@techgob) junto al nombre de la dueña de producto en
       `AUTHORS.md`, igual que en la sección 2 del SOW.
 - [x] Agregar a la sección «Método» de `AUTHORS.md` la autoría del código de la pieza 2: «Kevin
-      Soto dirigió la sesión en la que Claude, de Anthropic, escribió la interfaz, las pruebas y el
-      código del relayer (pieza 2). Kevin revisó el código y lo corrió en testnet (casos R-1 a R-3),
+      Soto dirigió la sesión en la que Claude escribió la interfaz, las pruebas y el código del
+      relayer (pieza 2). Kevin revisó el código y lo corrió en testnet (casos R-1 a R-3),
       y TechGob lo aceptó como dueña de producto.»
