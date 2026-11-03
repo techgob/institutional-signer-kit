@@ -9,7 +9,7 @@ Código publicado bajo licencia Apache-2.0.
 
 Quien decide el alcance y acepta los entregables es la dueña de producto. Las consultas sobre qué construir se dirigen a ella; las decisiones de cómo construirlo corresponden a quien desarrolla.
 
-- **Nadinne Canto Novoa** — dueña de producto. Define el alcance, prioriza el trabajo y acepta los entregables. Diseño de la máquina de estados a partir del marco normativo, contrato de datos, especificación funcional y relación institucional.
+- **Nadinne Canto Novoa** (@techgob) — dueña de producto. Define el alcance, prioriza el trabajo y acepta los entregables. Diseño de la máquina de estados a partir del marco normativo, contrato de datos, especificación funcional y relación institucional.
 - **Kevin Alexander Soto Burgos** (@kasbsquall) — desarrollo: arquitectura técnica, revisión de implementabilidad de la máquina de estados e implementación en Soroban, separación entre firmante y pagador (HU-01), ingesta y verificador.
 - **[ nombre ]** — especialista en tokenización. Se incorpora en la segunda iteración, bajo la misma modalidad de aportes y distribución que el resto del equipo, y desarrolla el token no transferible sobre SEP-50 y la multifirma por rol y ciclo.
 
@@ -29,7 +29,7 @@ Las contrapartes institucionales aportan el caso de uso y la validación en terr
 
 ## Método
 
-La documentación y la especificación de este proyecto se elaboraron con asistencia de Claude, de Anthropic, bajo dirección, criterio y validación de TechGob. Las fuentes normativas fueron leídas y verificadas en sus textos oficiales.
+La documentación y la especificación de este proyecto se elaboraron con asistencia de Claude, de Anthropic, bajo dirección, criterio y validación de TechGob. Kevin Soto dirigió la sesión en la que Claude escribió la interfaz, las pruebas y el código del relayer (pieza 2). Kevin revisó el código y lo corrió en testnet (casos R-1 a R-3), y TechGob lo aceptó como dueña de producto. Las fuentes normativas fueron leídas y verificadas en sus textos oficiales.
 
 ## Financiamiento
 
