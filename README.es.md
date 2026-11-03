@@ -82,9 +82,13 @@ Para reproducir en testnet la firma sin XLM (HU-01), el traspaso de operador y l
 
 **Hecho, autofinanciado (unas 45 horas de diseño):** máquina de estados derivada artículo por artículo de las normas de ambas municipalidades; contrato de datos con reglas de admisión por campo; validador en dos capas con 7 casos de prueba; análisis forense de los documentos de ambas entidades; prueba de concepto en testnet de la separación firmante-pagador.
 
-**Alcance de esta postulación a instaward:** Signer Kit v1 empaquetado y documentado; registro del ciclo T0 a T8 en testnet con sus guardas; ingesta v2 con los dos perfiles de documento; verificador ciudadano; investigación de usuario en ambas municipalidades.
+**Alcance de esta postulación a instaward:** Signer Kit v1 completo, con los cinco casos de rechazo del relayer corridos en testnet. Registro del ciclo T0 a T4 en testnet con las guardas G1, G2, G6 y G7. Las dos aperturas reales del ciclo, una por municipalidad. Certificado de hito. Verificador en vivo, medición de comisiones e informe de costos a las autoridades sobre T0 a T4.
 
-**Fuera de alcance por ahora:** tokenización, sustitución de proyectos, multifirma por rol y ciclo, perfil del Programa del Vaso de Leche, mainnet y auditoría externa.
+**Por qué el alcance es T0 a T4 y no T0 a T8.** Por recomendación de quien define en el capítulo de embajadores qué proyectos se postulan a la instaward, el proyecto se evaluó con Stellar Raven, el servidor que da a agentes de inteligencia artificial la documentación de Stellar y el contexto de su ecosistema. La revisión comparó esta postulación con proyectos que ya recibieron instawards y concluyó que el plan anterior estaba sobredimensionado para 30 días. La recomendación fue reducir el alcance de los entregables. Esta versión tiene tres entregables en lugar de cuatro, y ninguno depende de la firma de un tercero para cerrarse. La revisión completa está en el historial del repositorio: `docs/revision-postulacion.md`, commit `6bb92c6`.
+
+**Propuesto para los sprints 2 y 3** (sección 7 del SOW): transiciones T5 a T13, ingesta de los cinco ciclos publicados de La Punta, investigación de usuario, verificador ciudadano completo, sustitución de proyectos y perfil del Programa del Vaso de Leche.
+
+**Fuera de alcance de todo el programa:** tokenización, multifirma por rol y ciclo, mainnet y auditoría externa.
 
 ## Protección de datos por diseño
 
