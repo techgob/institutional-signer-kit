@@ -496,21 +496,13 @@ Across all three sprints TechGob pays the fees. After that the operator role mov
 | Claim in this SOW | Repository | Video | Walkthrough |
 |---|---|---|---|
 | Sign without holding XLM | README, HU-01 evidence | Title and opening | Pieces 1, 3, 4 marked proven |
-| All four pieces built with passing tests | `signer-kit/relayer.py`, `signer-kit/test_relayer.py`, CI | — | **Piece 2: label to be updated** |
+| All four pieces built with passing tests | `signer-kit/relayer.py`, `signer-kit/test_relayer.py`, CI | — | Piece 2 marked as built |
 | Two relayer refusal cases still to be run on testnet | `evidence/transacciones.md`, R-1 to R-3; `signer-kit/README.md` | — | Piece 2, scope note |
 | Scope T0–T4 with four guards | README, "Scope of this Instaward request" | "05 · next · the cycle registry, in development" | Milestones 1 to 3 |
 | Skipped legal step rejected by the network | `docs/maquina-estados.md`, ADR-001 | "skips a legal step → rejected by the network" | Guard descriptions |
 | Milestone certificate | `docs/statement-of-work.md` | "milestone certificate — a precondition a disbursement can require" | — |
 | Two genesis variants | `docs/maquina-estados.md`, genesis section | — | Milestone 1 |
 | Designed on real Peruvian municipal documents | `evidence/documentos.md`, data contract | "Está diseñado sobre documentos municipales reales del Perú" | 16 inconsistencies of the Tocache ordinance |
-
-**Consistency items to settle before submitting.** This annex claims the SOW does not contradict the public artifacts. Five things must be aligned first:
-
-1. `demo/index.html`, line 568: piece 2 is still labelled "No implementado · lo financia esta iteración". It must say it is built and tested, with the two refusal cases pending a testnet run.
-2. The repository README declares the application's scope as T0–T8. It must say T0–T4 and point to section 7 for the rest.
-3. `planning/` must carry this iteration's sprint with the T0–T4 scope and the hour distribution of section 4.2, validated by its schema, as S00 is. The contribution agreement ties the 120 development hours to the scope of the current work plan, so that file is what makes the limit enforceable.
-4. `docs/acuerdo-aportes-y-distribucion.md` in the public repository is a half-filled template, with the split left blank. Section 4.2 states that the effective agreement is signed and kept outside the repository, so the template contradicts the SOW itself and must be removed from the repository. While it is there, a third party reads an incomplete agreement and takes it for the current one.
-5. `docs/statement-of-work.md` in the repository is the previous version of this SOW, with the T0–T8 scope and four deliverables. It must be replaced with this version, because it is the file the walkthrough and this annex cite as the source.
 
 ---
 

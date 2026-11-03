@@ -498,18 +498,10 @@ En los tres sprints TechGob paga las comisiones. Después, el rol de operador pa
 | Afirmación de este SOW | Repositorio | Video | Recorrido interactivo |
 |---|---|---|---|
 | Firmar sin tener XLM | README, evidencia de HU-01 | Título y apertura | Piezas 1, 3 y 4 marcadas como probadas |
-| Las cuatro piezas están construidas y con pruebas que pasan | `signer-kit/relayer.py`, `signer-kit/test_relayer.py`, integración continua | — | **Pieza 2: etiqueta por actualizar** |
+| Las cuatro piezas están construidas y con pruebas que pasan | `signer-kit/relayer.py`, `signer-kit/test_relayer.py`, integración continua | — | Pieza 2 marcada como construida |
 | Del relayer faltan dos casos de rechazo por correr en testnet | `evidence/transacciones.md`, R-1 a R-3; `signer-kit/README.md` | — | Pieza 2, nota de alcance |
 | Alcance T0–T4 con cuatro guardas | README, "Alcance de esta postulación a instaward" | Sección 05, rotulada en inglés: la etapa siguiente es el registro del ciclo, en desarrollo | Hitos 1 a 3 |
 | Un paso legal omitido es rechazado por la red | `docs/maquina-estados.md`, ADR-001 | Rotulado en inglés: un paso legal omitido es rechazado por la red | Descripción de las guardas |
 | Certificado de hito | `docs/statement-of-work.md` | Rotulado en inglés: certificado de hito, una precondición que un desembolso puede exigir | — |
 | Dos variantes de génesis | `docs/maquina-estados.md`, sección de génesis | — | Hito 1 |
 | Diseñado sobre documentos municipales reales del Perú | `evidence/documentos.md`, contrato de datos | "Está diseñado sobre documentos municipales reales del Perú" | 16 inconsistencias de la ordenanza de Tocache |
-
-**Pendientes de coherencia antes de enviar.** Este anexo afirma que el SOW no contradice a los artefactos públicos. Cinco cosas hay que alinear primero:
-
-1. `demo/index.html`, línea 568: la pieza 2 sigue etiquetada "No implementado · lo financia esta iteración". Debe decir que está construida y probada, con los dos casos de rechazo pendientes de corrida en testnet.
-2. El README del repositorio declara el alcance de la postulación como T0–T8. Debe decir T0–T4 y remitir a la sección 7 por lo demás.
-3. `planning/` debe traer el sprint de esta iteración con el alcance T0–T4 y la distribución de horas de la sección 4.2, validado por su esquema, como lo está el S00. El acuerdo de aportes ata las 120 horas de desarrollo al alcance del plan de trabajo vigente, así que ese archivo es el que hace exigible el límite.
-4. `docs/acuerdo-aportes-y-distribucion.md` en el repositorio público es una plantilla a medio llenar, con el reparto sin completar. La sección 4.2 declara que el acuerdo efectivo está firmado y se conserva fuera del repositorio, así que la plantilla contradice al propio SOW y debe retirarse del repositorio. Mientras esté ahí, un tercero lee un acuerdo incompleto y lo toma por el vigente.
-5. `docs/statement-of-work.md` en el repositorio es la versión anterior de este SOW, con el alcance T0–T8 y cuatro entregables. Debe reemplazarse por esta versión, porque es el archivo que el recorrido y el anexo citan como fuente.
